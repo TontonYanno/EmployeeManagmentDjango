@@ -1,0 +1,74 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Gestion des Employés</h4>
+          <!-- <p class="card-description">Add class <code>.table</code></p> -->
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Matricule</th>
+                  <th>Nom Complet</th>
+                  <th>Rôles</th>
+                  <th>Contact</th>
+                  <th>Naissance</th>
+                  <th>Sexe</th>
+                  <th>Actions</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Jacob</td>
+                  <td>53275531</td>
+                  <td><label class="badge badge-danger">Pending</label></td>
+                  <td>53275531</td>
+                  <td>53275531</td>
+                  <td>53275531</td>
+                  <td>
+                      <a href="#" class="btn btn-sm btn-outline-primary" >
+                          <i class="fas fa-eye"></i>
+                      </a>
+                      <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setUserId()">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Messsy</td>
+                  <td>53275532</td>
+                  <td><label class="badge badge-warning">In progress</label></td>
+                  <td>15 May 2017</td>
+                </tr>
+                <tr>
+                  <td>John</td>
+                  <td>53275533</td>
+                  <td><label class="badge badge-info">Fixed</label></td>
+                  <td>14 May 2017</td>
+                </tr>
+                <tr>
+                  <td>Peter</td>
+                  <td>53275534</td>
+                  <td><label class="badge badge-success">Completed</label></td>
+                  <td>16 May 2017</td>
+                </tr>
+                <tr>
+                  <td>Dave</td>
+                  <td>53275535</td>
+                  <td><label class="badge badge-warning">In progress</label></td>
+                  <td>20 May 2017</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock %}
