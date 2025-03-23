@@ -103,7 +103,7 @@
             </div>
         </div>
         <div class="">
-            <a href="tasks.php" class="btn btn-outline-primary">
+            <a href="{% url 'listtasks' %}" class="btn btn-outline-primary">
                 <i class="fas fa-arrow-left me-2"></i>Retour
             </a>
         </div>
@@ -111,7 +111,6 @@
 
     <!-- Messages d'alerte -->
  
-
     <!-- Formulaire d'édition -->
     <form method="POST" action="app/update-task.php" class="needs-validation" novalidate>
         <input type="hidden" name="id" value="id">

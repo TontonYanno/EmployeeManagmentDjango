@@ -142,26 +142,5 @@
 
 </div>
 
-<!-- <script>
-    function handleDecision(isApproved) {
-        const note = document.querySelector('.note-field').value;
-
-        // Envoyer les données au backend
-        const requestData = {
-            status: isApproved ? 'approved' : 'rejected',
-            adminNote: note
-        };
-
-        console.log('Données envoyées:', requestData);
-
-        // Mettre à jour l'UI
-        const statusBadge = document.querySelector('.status-badge');
-        statusBadge.className = `status-badge status-${isApproved ? 'approved' : 'rejected'}`;
-        statusBadge.textContent = isApproved ? 'Approuvé' : 'Rejeté';
-
-        // Feedback à l'utilisateur
-        alert(`Demande ${isApproved ? 'approuvée' : 'rejetée'} avec succès !`);
-    }
-</script> -->
 
 {% endblock %}

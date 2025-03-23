@@ -6,3 +6,6 @@ def accueil(request):
 
 def userdashboard(request):
     return render(request, 'emp/dashboard.html')
+
+def dashboard(request):
+    return render(request, 'admin/dashboard.html')

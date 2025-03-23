@@ -38,7 +38,7 @@
 
                     <td>May 15, 2015</td>
                     <td>
-                        <a href="edit-task.php?id=<?= $task['id'] ?>" class="btn btn-sm btn-outline-primary">
+                        <a href="{% url 'edittask' %}" class="btn btn-sm btn-outline-primary">
                             <i class="fas fa-edit"></i>
                         </a>
                         <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" onclick="setUserId()">

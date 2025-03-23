@@ -9,3 +9,13 @@ def myprofile(request):
 
 def changepassword(request):
     return render(request, 'emp/profile/editprofile.html')
+
+#Les Vues Admin
+def users(request):
+    return render(request, 'admin/gestionuser/adduser.html')
+
+def listusers(request):
+    return render (request, 'admin/gestionuser/listuser.html')
+
+def edituser(request):
+    return render(request, 'admin/gestionuser/edituser.html')

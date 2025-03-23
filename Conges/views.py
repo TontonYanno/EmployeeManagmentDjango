@@ -10,3 +10,11 @@ def historique(request):
 
 def detail(request):
     return render(request, 'emp/conges/congesdetails.html')
+
+#Les Vues de l'admin
+
+def listconges (request):
+    return render (request, 'admin/gestionconges/conges.html')
+
+def detailconges(request):
+    return  render (request, 'admin/gestionconges/congesdetails.html' )

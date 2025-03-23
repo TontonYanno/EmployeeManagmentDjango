@@ -22,9 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path ('',views.accueil),
     # Les vues de l'employé 
-    path('dashboard/',views.userdashboard , name='userdashboard'),
-    path('mytasks/', include('Taches.urls')),
-    path('myprofile/', include('User.urls')),
-    path('mesconges/', include('Conges.urls')),
-    
+    path('mydashboard/',views.userdashboard , name='userdashboard'),
+    path('tasks/', include('Taches.urls')),
+    path('user/', include('User.urls')),
+    path('conges/', include('Conges.urls')),
+    # Les vues de l'admin 
+    path ('dashboard/', views.dashboard , name='dashboard'),
 ]
