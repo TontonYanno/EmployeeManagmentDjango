@@ -1,0 +1,98 @@
+{% extends 'emp/base.html' %}
+{% block content %}
+
+<div class="w-100 p-4">
+  
+    <!-- Section Informations personnelles -->
+    <div class="card info-card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-id-card me-2"></i>Informations personnelles
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Nom complet</dt>
+                        <dd class="col-sm-8" >
+                            KOFFI Konan Matthieu
+                        </dd>
+
+                        <dt class="col-sm-4">Matricule</dt>
+                        <dd class="col-sm-8" > 14 126 266 F </dd>
+
+                        <dt class="col-sm-4">Sexe</dt>
+                        <dd class="col-sm-8" >M</dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Date de naissance</dt>
+                        <dd class="col-sm-8" >
+                            Paris, le 03/11/2003
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Contact -->
+    <div class="card info-card mb-4">
+        <div class="card-header bg-info text-white">
+            <h5 class="mb-0">
+                <i class="fas fa-address-book me-2"></i>Coordonnées
+            </h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Email</dt>
+                        <dd class="col-sm-8" >
+                            yanncodeur1@gmail.com
+                        </dd>
+
+                        <dt class="col-sm-4">Téléphone</dt>
+                        <dd class="col-sm-8" >
+                            +225 0172011588
+
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Adresse</dt>
+                        <dd class="col-sm-8" >
+                            Cité ATCI
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Sécurité -->
+    <div class="card info-card">
+        <div class="card-header bg-warning text-dark">
+            <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Sécurité</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div
+                        class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Mot de passe</span>
+                        <a class="btn btn-outline-secondary btn-sm" href="edit_profile.php">
+                            <i class="fas fa-edit me-2"></i>Modifier
+                        </a>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

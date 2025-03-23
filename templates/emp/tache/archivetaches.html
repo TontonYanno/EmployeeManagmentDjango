@@ -1,0 +1,100 @@
+{% extends 'emp/base.html' %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-color: #6366f1;
+        --secondary-color: #4f46e5;
+        --background-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+
+
+    .task-card {
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease;
+    }
+
+    .task-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        border: none;
+        padding: 0.75rem 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: var(--secondary-color);
+        transform: scale(1.05);
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+    }
+</style>
+
+<div class="container ">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="task-card p-2">
+
+                <!-- Titre et bouton de retour -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 mb-0">📦 Archiver Tâche</h1>
+                    <a href="my_task.php" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Retour
+                    </a>
+                </div>
+
+
+                <!-- Messages d'alerte -->
+                <?php if (isset($_GET['error'])) : ?>
+                    <div class="alert alert-danger d-flex align-items-center mb-4">
+                        <i class="fas fa-exclamation-triangle me-3"></i>
+                        <div><?php echo htmlspecialchars(stripcslashes($_GET['error'])); ?></div>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($_GET['success'])) : ?>
+                    <div class="alert alert-success d-flex align-items-center mb-4">
+                        <i class="fas fa-check-circle me-3"></i>
+                        <div><?php echo htmlspecialchars(stripcslashes($_GET['success'])); ?></div>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Détails de la tâche -->
+                <div class="mb-4">
+                    <h5 class="fw-medium mb-3">📌 Détails de la tâche</h5>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Titre</label>
+                        <div class="form-control bg-light"><?= htmlspecialchars($task['title']) ?></div>
+                    </div>
+                </div>
+
+                <!-- Formulaire d'archivage -->
+                <form method="POST" action="app/archive_task.php">
+                    <input type="hidden" name="id" value="<?= $task['id'] ?>">
+
+                    <div class="mb-4">
+                        <label class="form-label">Mention pour l'administrateur</label>
+                        <textarea name="mention" class="form-control" rows="4" placeholder="Ex : J'ai rencontré un problème avec cette tâche..." required></textarea>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-box-archive me-2"></i>Archiver la tâche
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

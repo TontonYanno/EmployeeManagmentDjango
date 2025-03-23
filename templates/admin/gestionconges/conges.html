@@ -1,0 +1,243 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-color: #6366f1;
+        --secondary-color: #4f46e5;
+        --success-color: #22c55e;
+        --warning-color: #f59e0b;
+        --error-color: #ef4444;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #f8fafc;
+    }
+
+    .main-content {
+        /* margin-left: 280px; */
+        /* padding: 2rem; */
+    }
+
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 500;
+    }
+
+    .status-approved {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    .status-rejected {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+
+    .leave-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .leave-card:hover {
+        transform: translateY(-3px);
+    }
+</style>
+
+<div class="main-content w-100">
+    <div class="container-fluid ">
+        <!-- En-tête -->
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h1 class="h3 ">📅 Gestion des Congés</h1>
+        </div>
+        <!-- Statistiques -->
+        <!-- <div class="row mb-2 g-2">
+            <div class="col-md-2">
+                <div class="leave-card p-3 text-center">
+                    <div class="text-muted mb-2">Total Congés</div>
+                    <div class="h2 text-primary">30</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="leave-card p-3 text-center">
+                    <div class="text-muted mb-2">Congés Pris</div>
+                    <div class="h2">15</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="leave-card p-3 text-center">
+                    <div class="text-muted mb-2">En Attente</div>
+                    <div class="h2">3</div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Tableau des congés -->
+        <div class="leave-card p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="bg-light">
+                        <tr>
+                            <!-- <th>Non de l'employe</th> -->
+                            <th>Congés</th>
+                            <th>Durée</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach (get_leave($conn) as $result) { ?>
+                            <tr class="leave-card">
+                                <!-- <td>  </td> -->
+
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fas fa-calendar-alt text-primary"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold"><?= $result['type'] ?></div>
+                                            <div class="text-muted"><?= $debut = date('d/m/y', strtotime($result['debut'])) ?> au <?= $fin = date('d/m/y', strtotime($result['fin'])) ?></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <!-- ici il ya Calcul de la durée  -->
+                            
+                                <td>
+                                    <div class="fw-bold"><?= $days ?></div>
+                                </td>
+                                <!-- Ici il ya un travail pour les couleur des status -->
+                                <td>
+                                    <span class="status-badge <?= $statuts ?>"><?= $result['statuts'] ?></span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-primary" href="leavedetails.php?id=<?= $result['user_id'] ?>&leave_id=<?= $result["leave_id"] ?>">
+                                        <i class="fa-solid fa-circle-info"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Modal Détails -->
+  <div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">📋 Détails du Congé</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Contenu dynamique -->
+
+                <div class="row g-3">
+                    <!-- Section Gauche -->
+                    <div class="col-md-6">
+                        <dl class="mb-0">
+
+                            <dt class="text-primary">👤 Employé</dt>
+                            <dd><?= $result['fullname'] ?></dd>
+
+                            <dt class="text-primary mt-2">📅 Période</dt>
+                            <dd>
+                                Du <span class="fw-bold"> debtu <br>
+                                    Au <span class="fw-bold">fin</span>
+                            </dd>
+
+                            <dt class="text-primary mt-2">⏳ Durée</dt>
+                            <dd>
+                                <span class="badge bg-info"> <?= $days ?> jours</span><br>
+                                <small class="text-muted">(incluant weekends et jours fériés)</small>
+                            </dd>
+                        </dl>
+                    </div>
+
+                    <!-- Section Droite -->
+                    <div class="col-md-6">
+                        <dl class="mb-0">
+                            <dt class="text-primary">📝 Type de Congé</dt>
+                            <dd>
+                                <span class="badge bg-secondary">Type</span>
+                            </dd>
+
+                            <dt class="text-primary mt-2">📌 Statut</dt>
+                            <dd>
+                                <span class="badge <?= $statuts ?>">stauts</span><br>
+                                <small class="text-muted">Le [DATE_APPROBATION]</small>
+                            </dd>
+                            <div class="col-12 mt-3">
+                                <dt class="text-primary">📝 Description</dt>
+                                <dd class="border-top pt-2"><?= $leave['description']; ?></dd>
+                            </div>
+                        </dl>
+                    </div>
+
+                    <!-- Section Commentaire -->
+                    <div class="col-12 mt-3">
+                        <dt class="text-primary">📝 Reponse de L'admin</dt>
+                        <dd class="border-top pt-2">
+                            reponse de l'admin
+                        </dd>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="col-12 mt-3">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <small class="text-muted">Soumis le : <?= $created_at = date('d/m/Y ', strtotime($leave2['created_at'])); ?></small>
+                            </div>
+                            <div class="timeline-item">
+                                <small class="text-muted">Dernière modification : <?= $created_at = date('d/m/Y ', strtotime($leave2['created_at'])); ?></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Gestion des modals
+    const detailModal = document.getElementById('detailModal')
+    detailModal.addEventListener('show.bs.modal', event => {
+        const button = event.relatedTarget
+        const details = JSON.parse(button.getAttribute('data-details'))
+
+        const content = `
+            <dl class="row">
+                <dt class="col-sm-4">Type</dt>
+                <dd class="col-sm-8">${details.LeaveType}</dd>
+                
+                <dt class="col-sm-4">Période</dt>
+                <dd class="col-sm-8">${details.FromDate} au ${details.ToDate}</dd>
+                
+                <dt class="col-sm-4">Description</dt>
+                <dd class="col-sm-8">${details.Description || 'Aucune description'}</dd>
+                
+                <dt class="col-sm-4">Commentaire</dt>
+                <dd class="col-sm-8">${details.AdminRemark || 'Aucun commentaire'}</dd>
+            </dl>
+        `
+        document.getElementById('modalContent').innerHTML = content
+    })
+</script>
+
+{% endblock %}

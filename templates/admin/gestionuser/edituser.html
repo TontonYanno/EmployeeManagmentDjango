@@ -1,0 +1,237 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-color: #6366f1;
+        --secondary-color: #4f46e5;
+        --accent-color: #a855f7;
+        --light-bg: #f8f9fa;
+    }
+
+
+    .card-header {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-radius: 15px 15px 0 0 !important;
+    }
+
+    .form-section {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section h5 {
+        color: var(--secondary-color);
+        border-left: 4px solid var(--accent-color);
+        padding-left: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .required-label:after {
+        content: "*";
+        color: #ef4444;
+        margin-left: 3px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        border: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+    }
+
+    .form-check-input:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .input-group-text {
+        background-color: var(--light-bg);
+        border-color: #e5e7eb;
+    }
+
+    .password-strength {
+        height: 3px;
+        background: #e5e7eb;
+        margin-top: 5px;
+        border-radius: 2px;
+    }
+
+    .password-strength::after {
+        content: '';
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--primary-color);
+        transition: width 0.3s ease;
+    }
+
+    input:focus+.password-strength::after {
+        width: 100%;
+    }
+</style>
+
+<div class="container py-1">
+    <div class="card mx-auto shadow-lg" style="max-width: 800px;">
+        <div class="card-header">
+            <h2 class="text-center text-white mb-0 fw-bold">🛠 Modifier les utilisateurs</h2>
+        </div>
+
+        <div class="card-body p-4" style="background: #f8fafc;">
+            <form method="POST" action="app/update-user.php">
+                <!-- les alertes -->
+                <?php if (isset($_GET['error'])) { ?>
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo stripcslashes($_GET['error']); ?>
+                    </div>
+                <?php } ?>
+
+                <?php if (isset($_GET['success'])) { ?>
+                    <div class="alert alert-success" role="alert">
+                        <?php echo stripcslashes($_GET['success']); ?>
+                    </div>
+                <?php } ?>
+                <!-- Section Informations personnelles -->
+                <div class="form-section">
+                    <h5>📝 Informations personnelles</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Nom complet</label>
+                            <input type="text" name="full_name" class="form-control shadow-sm" value="<?= $user['fullname'] ?>">
+                            <input type="text" name="id" value="<?= $user['id'] ?>" hidden>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Nom d'utilisateur</label>
+                            <div class="input-group">
+                                <span class="input-group-text">@</span>
+                                <input type="text" name="user_name" class="form-control shadow-sm" value="<?= $user['username'] ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Date de naissance</label>
+                            <input type="date" name="datenaissance" class="form-control shadow-sm" value="<?= $user['datenaissance'] ?>">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Sexe</label>
+                            <select name="sexe" class="form-select shadow-sm">
+                                <?php if ($user['sexe'] == "M") {
+                                    $user['sexe'] = " Masculin";
+                                    $value = "M";
+                                } else {
+                                    $user['sexe'] = "Féminin";
+                                    $value = "F";	
+                                } ?>
+                                <option selected value="<?=$value?>"><?= $user['sexe'] ?></option>
+                                <option value="M">👨 Masculin</option>
+                                <option value="F">👩 Féminin</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Contact -->
+                <div class="form-section">
+                    <h5>📱 Contact</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text">✉️</span>
+                                <input type="email" name="email" class="form-control shadow-sm" value="<?= $user['email'] ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Téléphone</label>
+                            <div class="input-group">
+                                <span class="input-group-text">📞</span>
+                                <input type="text" name="telephone" class="form-control shadow-sm" value="<?= $user['telephone'] ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label required-label">Adresse</label>
+                            <input type="text" name="adresse" class="form-control shadow-sm" value="<?= $user['adresse'] ?>"></input>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Sécurité -->
+                <div class="form-section">
+                    <h5>🔐 Sécurité</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Mot de passe</label>
+                            <input type="password" name="password" value="<?= $user['password'] ?>" class="form-control shadow-sm" minlength="8">
+                            <div class="password-strength"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Rôle</label>
+                            <select name="role" class="form-select shadow-sm">
+                                <?php if ($user['role'] == 1) {
+                                    $user['role'] = "Administrateur";
+                                    $value = "1";
+                                } else {
+                                    $user['role'] = "Utilisateur";
+                                    $value = "2";
+                                } ?>
+                                <option selected value="<?=$value?>"><?= $user['role'] ?></option>
+                                <option value="1">👑 Administrateur</option>
+                                <option value="2">👤 Utilisateur</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Matricule</label>
+                            <div class="input-group">
+                                <span class="input-group-text">🔢</span>
+                                <input type="text" name="matricule" class="form-control shadow-sm" value="<?= $user['matricule'] ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button type="reset" class="btn btn-outline-secondary px-4">Annuler</button>
+                    <a class="btn btn-success" href="user.php">Liste des Utilisateurs</a>
+                    <button type="submit" class="btn btn-primary px-4">
+
+                        <span class="fw-bold">✅ Modifier</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

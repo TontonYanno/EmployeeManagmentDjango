@@ -1,0 +1,215 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-color: #6366f1;
+        --secondary-color: #4f46e5;
+        --accent-color: #a855f7;
+        --light-bg: #f8f9fa;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        min-height: 100vh;
+    }
+
+    .card-header {
+        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        border-radius: 15px 15px 0 0 !important;
+    }
+
+    .form-section {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section h5 {
+        color: var(--secondary-color);
+        border-left: 4px solid var(--accent-color);
+        padding-left: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .required-label:after {
+        content: "*";
+        color: #ef4444;
+        margin-left: 3px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+        border: none;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+    }
+
+    .form-check-input:checked {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .input-group-text {
+        background-color: var(--light-bg);
+        border-color: #e5e7eb;
+    }
+
+    .password-strength {
+        height: 3px;
+        background: #e5e7eb;
+        margin-top: 5px;
+        border-radius: 2px;
+    }
+
+    .password-strength::after {
+        content: '';
+        display: block;
+        height: 100%;
+        width: 0;
+        background: var(--primary-color);
+        transition: width 0.3s ease;
+    }
+
+    input:focus+.password-strength::after {
+        width: 100%;
+    }
+</style>
+
+<div class="container py-2">
+    <div class="card mx-auto shadow-lg" >
+        <div class="card-header">
+            <h2 class="text-center text-white mb-0 fw-bold">🛠 Nouvel Utilisateur</h2>
+        </div>
+
+        <div class="card-body p-4" style="background: #f8fafc;">
+            <form method="POST" action="#">
+                
+                <!-- Section Informations personnelles -->
+                <div class="form-section">
+                    <h5>📝 Informations personnelles</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Nom complet</label>
+                            <input type="text" name="full_name" class="form-control shadow-sm" placeholder="Jean Dupont">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Nom d'utilisateur</label>
+                            <div class="input-group">
+                                <span class="input-group-text">@</span>
+                                <input type="text" class="form-control shadow-sm" name="user_name" placeholder="j.dupont">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Date de naissance</label>
+                            <input type="date" name="date_naissance" class="form-control shadow-sm">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Sexe</label>
+                            <div class="d-flex gap-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sexe" value="M" id="homme">
+                                    <label class="form-check-label" for="homme">👨 Masculin</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="sexe" value="F" id="femme">
+                                    <label class="form-check-label" for="femme">👩 Féminin</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Contact -->
+                <div class="form-section">
+                    <h5>📱 Contact</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text">✉️</span>
+                                <input type="email" name="email" class="form-control shadow-sm" placeholder="exemple@domaine.com">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Téléphone</label>
+                            <div class="input-group">
+                                <span class="input-group-text">📞</span>
+                                <input type="tel" name="telephone" class="form-control shadow-sm" pattern="[0-9]{10}" placeholder="0612345678">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label required-label">Adresse</label>
+                            <textarea class="form-control shadow-sm" name="adresse" rows="2" placeholder="12 Rue de la Paix, 75001 Paris"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Sécurité -->
+                <div class="form-section">
+                    <h5>🔐 Sécurité</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Mot de passe</label>
+                            <input type="password" name="password" class="form-control shadow-sm" minlength="8">
+                            <div class="password-strength"></div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label required-label">Rôle</label>
+                            <select name="role" class="form-select  shadow-sm">
+                                <option value="">👨💻 Choisir un rôle...</option>
+                                <option value="1">👑 Administrateur</option>
+                                <option value="2">👤 Utilisateur</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button type="reset" class="btn btn-outline-secondary px-4">Annuler</button>
+                    <a class="btn btn-success" href="user.php">Liste des Utilisateurs</a>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <span class="fw-bold">✅ Enregistrer</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
