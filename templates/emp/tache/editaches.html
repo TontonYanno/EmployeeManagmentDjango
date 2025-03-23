@@ -1,0 +1,123 @@
+{% extends 'emp/base.html' %}
+
+{% block content %}
+
+<style>
+    :root {
+        --primary-color: #6366f1;
+        --secondary-color: #4f46e5;
+        --background-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+
+
+    .task-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease;
+    }
+
+    .task-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .status-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9em;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        background: #fef3c7;
+        color: #d97706;
+    }
+
+    .status-in_progress {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .status-completed {
+        background: #dcfce7;
+        color: #16a34a;
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        border: none;
+        padding: 0.75rem 2rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: var(--secondary-color);
+        transform: scale(1.05);
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="task-card p-2 mb-2">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 mb-0">📝 Modifier Tâche</h1>
+                    <a href="my_task.php" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>Retour
+                    </a>
+                </div>
+
+                <!-- Messages d'alerte -->
+                <?php if (isset($_GET['error'])) : ?>
+                    <div class="alert alert-danger d-flex align-items-center mb-4">
+                        <i class="fas fa-exclamation-triangle me-3"></i>
+                        <div><?php echo htmlspecialchars(stripcslashes($_GET['error'])); ?></div>
+                    </div>
+                <?php endif; ?>
+
+                <?php if (isset($_GET['success'])) : ?>
+                    <div class="alert alert-success d-flex align-items-center mb-4">
+                        <i class="fas fa-check-circle me-3"></i>
+                        <div><?php echo htmlspecialchars(stripcslashes($_GET['success'])); ?></div>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Détails de la tâche -->
+                <div class="mb-4">
+                    <h5 class="fw-medium mb-3">📌 Détails de la tâche</h5>
+                    <div class="mb-3">
+                        <label class="form-label text-muted">Titre</label>
+                        <div class="form-control bg-light"><?= htmlspecialchars($task['title']) ?></div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label text-muted">Description</label>
+                        <div class="form-control bg-light" style="min-height: 100px"><?= htmlspecialchars($task['description']) ?></div>
+                    </div>
+                </div>
+
+                <!-- Formulaire de mise à jour -->
+                <form method="POST" action="logique">
+                    <input type="hidden" name="id" value="<?= $task['id'] ?>">
+
+                    <h5 class="fw-medium mb-3">🔄 Mise à jour du statut</h5>
+                    <div class="mb-4">
+                        <label class="form-label">Statut actuel</label>
+                        <select name="status" class="form-select" required>
+                            <option value="pending" <?= $task['status'] == "pending" ? 'selected' : '' ?>>En attente</option>
+                            <option value="in_progress" <?= $task['status'] == "in_progress" ? 'selected' : '' ?>>En cours</option>
+                            <option value="completed" <?= $task['status'] == "completed" ? 'selected' : '' ?>>Terminée</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Enregistrer les modifications
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

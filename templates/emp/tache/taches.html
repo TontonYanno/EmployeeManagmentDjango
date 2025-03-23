@@ -1,0 +1,89 @@
+{% extends 'emp/base.html' %}
+
+{% block content %}
+<!-- 
+<div
+class="d-flex justify-content-between flex-wrap align-items-center pt-3 pb-2 mb-4 border-bottom">
+<h1 class="h2">Gestion des Tâches</h1>
+</div> -->
+
+<!-- Boutons d'action -->
+<div class="d-flex flex-wrap justify-content-between mb-2">
+  
+  <div class="filter-buttons">
+    <a href="my_task.php" class="btn btn-secondary btn-custom">
+      <i class="fas fa-tasks me-2"></i>Tâches
+    </a>
+    <a
+      href="my_task.php?due_date=Backlog"
+      class="btn btn-warning btn-custom">
+      <i class="fas fa-infinity me-2"></i>Tâches Courantes
+    </a>
+    <a
+      href="my_task.php?due_date=archivé"
+      class="btn btn-info btn-custom">
+      <i class="fas fa-box-archive"></i>Archivées
+    </a>
+    <a
+      href="my_task.php?due_date=Overdue"
+      class="btn btn-danger btn-custom">
+      <i class="fas fa-exclamation-triangle me-2"></i>En retard
+    </a>
+  </div>
+</div>
+
+
+<div class="row">
+    
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Gestion des Tâches</h4>
+         
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Taches</th>
+                  <th>Statuts</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <h5 class="mb-1 fw-bold"> Lorem, ipsum dolor.</h5>
+                    <br>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, alias. </p>
+                  </td>
+                  <td><label class="badge badge-danger">Pending</label></td>
+                  <td class="text-danger">
+                    <div class="col-md-2 d-flex text-end">
+                      <a href="#" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                    <!-- Ici le bouton pour  archiver doit être affiché si la tâche n'est pas archivée -->
+                    <a style="display:block" href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="fas fa-box-archive"></i></a>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Messsy</td>
+                  <td><label class="badge badge-warning">In progress</label></td>
+                  <td class="text-danger"> 21.06% <i class="ti-arrow-down"></i></td>
+                </tr>
+                <tr>
+                  <td>Peter</td>
+                  <td><label class="badge badge-success">Completed</label></td>
+                  <td class="text-success"> 82.00% <i class="ti-arrow-up"></i></td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+   
+    
+  </div>
+
+{% endblock %}
