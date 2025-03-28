@@ -159,7 +159,7 @@
         <ul class="nav">
 
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'dashboard' %}">
+            <a class="nav-link" href="{% url 'manager_dashboard' %}">...</a>
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">Tableau de Bord</span>
             </a>
@@ -173,8 +173,8 @@
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{% url 'addusers' %}"> Ajouter Utilisateur </a></li>
-                <li class="nav-item"> <a class="nav-link" href="{% url 'listusers' %}"> Gestion Utilisateur </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> Ajouter Utilisateur </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> Gestion Utilisateur </a></li>
               </ul>
             </div>
           </li>
@@ -187,13 +187,13 @@
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="{% url 'addtasks' %}"> Ajouter Tâches </a></li>
-                <li class="nav-item"> <a class="nav-link" href="{% url 'listtasks' %}"> Toutes les Tâches </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> Ajouter Tâches </a></li>
+                <li class="nav-item"> <a class="nav-link" href=""> Toutes les Tâches </a></li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'listconges' %}">
+            <a class="nav-link" href="">
               <i class="icon-grid-2 menu-icon"></i>
               <span class="menu-title">Gestion Congés</span>
               
@@ -205,7 +205,8 @@
           <li class="nav-item">
             <a class="nav-link" href="#">
               <i class="icon-paper menu-icon"></i>
-              <span class="menu-title">Deconnexion</span>
+            <span href="{% url 'logout' %}">Déconnexion</span> 
+
             </a>
           </li>
           

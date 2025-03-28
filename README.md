@@ -26,3 +26,9 @@ QUELQUES REGLES DE GESTION
 
 /!\ Pour le moment tu va sciencer la fonctionnaliité d'authnetification là d'abord 
 JE pense pouvoir gerer le reste
+
+
+faut lancer l'application pour voir utilise 
+pour employee:admin@gmail.com et code bbkml123
+pour manager:bookeleblan@gmail.com et code bbkml
+et si tu veux voir le formulaire user et essaie de taper url= http://127.0.0.1:8000/admin/ connectez en tant que manager sinon employer na pas acces

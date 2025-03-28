@@ -17,15 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from GestionEmp import views
+from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path ('',views.accueil),
-    # Les vues de l'employé 
-    path('mydashboard/',views.userdashboard , name='userdashboard'),
-    path('tasks/', include('Taches.urls')),
-    path('user/', include('User.urls')),
-    path('conges/', include('Conges.urls')),
-    # Les vues de l'admin 
-    path ('dashboard/', views.dashboard , name='dashboard'),
+    path('', lambda request: redirect('login')),
+    path('', include('User.urls')),
+    #path ('',views.accueil),
+    # # Les vues de l'employé 
+    # path('mydashboard/',views.userdashboard , name='userdashboard'),
+    # path('tasks/', include('Taches.urls')),
+    # path('user/', include('User.urls')),
+    # path('conges/', include('Conges.urls')),
+    # # Les vues de l'admin 
+    # path ('dashboard/', views.dashboard , name='dashboard'),
 ]
