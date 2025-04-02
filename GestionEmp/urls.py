@@ -20,7 +20,8 @@ from GestionEmp import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path ('',views.accueil),
+    path ('',views.conexion , name='login'),
+    path('logout/',views.deconnexion, name='logout'),
     # Les vues de l'employé 
     path('mydashboard/',views.userdashboard , name='userdashboard'),
     path('tasks/', include('Taches.urls')),
