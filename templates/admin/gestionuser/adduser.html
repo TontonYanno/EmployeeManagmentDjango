@@ -108,23 +108,31 @@
         </div>
 
         <div class="card-body p-4" style="background: #f8fafc;">
-            <form method="POST" action="#">
+            <form method="POST" action="{% url 'add_user' %}">
+                {% csrf_token %}
                 
+                {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                {% endfor %}
+                {% endif %}
                 <!-- Section Informations personnelles -->
                 <div class="form-section">
                     <h5>📝 Informations personnelles</h5>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label required-label">Nom complet</label>
-                            <input type="text" name="full_name" class="form-control shadow-sm" placeholder="Jean Dupont">
+                            <input required type="text" name="nom_complet" class="form-control shadow-sm" >
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label required-label">Nom d'utilisateur</label>
-                            <div class="input-group">
-                                <span class="input-group-text">@</span>
-                                <input type="text" class="form-control shadow-sm" name="user_name" placeholder="j.dupont">
-                            </div>
+                            <input required type="text" class="form-control shadow-sm" name="username" >
                         </div>
 
                         <div class="col-md-6">
@@ -156,7 +164,7 @@
                             <label class="form-label required-label">Email</label>
                             <div class="input-group">
                                 <span class="input-group-text">✉️</span>
-                                <input type="email" name="email" class="form-control shadow-sm" placeholder="exemple@domaine.com">
+                                <input required type="email" name="email" class="form-control shadow-sm" placeholder="exemple@domaine.com">
                             </div>
                         </div>
 
@@ -164,13 +172,13 @@
                             <label class="form-label required-label">Téléphone</label>
                             <div class="input-group">
                                 <span class="input-group-text">📞</span>
-                                <input type="tel" name="telephone" class="form-control shadow-sm" pattern="[0-9]{10}" placeholder="0612345678">
+                                <input  required type="tel" name="telephone" class="form-control shadow-sm" pattern="[0-9]{10}" placeholder="exemple:0612345678">
                             </div>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label required-label">Adresse</label>
-                            <textarea class="form-control shadow-sm" name="adresse" rows="2" placeholder="12 Rue de la Paix, 75001 Paris"></textarea>
+                            <textarea required class="form-control shadow-sm" name="adresse" rows="2" placeholder="12 Rue de la Paix, 75001 Paris"></textarea>
                         </div>
                     </div>
                 </div>
@@ -181,16 +189,16 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label required-label">Mot de passe</label>
-                            <input type="password" name="password" class="form-control shadow-sm" minlength="8">
+                            <input required type="password" name="password" class="form-control shadow-sm" minlength="8">
                             <div class="password-strength"></div>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label required-label">Rôle</label>
-                            <select name="role" class="form-select  shadow-sm">
+                            <select required name="role" class="form-select  shadow-sm">
                                 <option value="">👨💻 Choisir un rôle...</option>
-                                <option value="1">👑 Administrateur</option>
-                                <option value="2">👤 Utilisateur</option>
+                                <option value="manager">👑 Manager</option>
+                                <option value="employe">👤 Employée</option>
                             </select>
                         </div>
 
@@ -199,7 +207,7 @@
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                     <button type="reset" class="btn btn-outline-secondary px-4">Annuler</button>
-                    <a class="btn btn-success" href="{% url 'listuser' %}">Liste des Utilisateurs</a>
+                    <a class="btn btn-success" href="{% url 'listusers' %}">Liste des Utilisateurs</a>
                     <button type="submit" class="btn btn-primary px-4">
                         <span class="fw-bold">✅ Enregistrer</span>
                     </button>
