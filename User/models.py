@@ -12,6 +12,7 @@ class Utilisateur(AbstractUser):
     matricule = models.CharField(max_length=20, unique=True)
     telephone = models.CharField(max_length=20, unique=True)
     adresse = models.TextField()
+    date_naissance=models.DateField(null=True, blank=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="employe")
 
     # Supprimer le champ `username` qui est inclus par défaut dans `AbstractUser`

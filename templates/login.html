@@ -34,9 +34,16 @@
               <h6 class="font-weight-light">Connectez vous pour continuer.</h6>
 
               {% if messages %}
-                  <div class="alert alert-danger"> {{message}} </div>
-              {% endif %} 
-
+              {% for message in messages %}
+                  <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                      {{ message }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+              {% endfor %}
+          {% endif %}
+          
               <form class="pt-3" method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
                 <div class="form-group">

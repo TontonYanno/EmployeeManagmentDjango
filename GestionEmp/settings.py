@@ -43,6 +43,8 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'User.Utilisateur'
+LOGIN_URL= 'login'
+
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate , login , logout
+from django.contrib.auth.decorators import login_required
+
 
 from django.contrib import messages
 
@@ -17,6 +19,7 @@ def conexion(request):
         if user is not None:
             login(request, user)
             if user.role == 'manager':
+                
                 return redirect("dashboard") # Vers dasbord admin 
             else:
                 return redirect("userdashboard") # Vers dashboard employe
@@ -25,15 +28,16 @@ def conexion(request):
             
     return render(request, 'login.html')
 
-
+@login_required
 def deconnexion(request):
     logout (request)
     return redirect ("login")
 
 #----------------------------------------------------------------------------------------------
 
+@login_required
 def userdashboard(request):
     return render(request, 'emp/dashboard.html')
-
+@login_required
 def dashboard(request):
     return render(request, 'admin/dashboard.html')
