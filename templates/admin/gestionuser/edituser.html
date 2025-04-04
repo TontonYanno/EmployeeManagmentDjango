@@ -105,18 +105,18 @@
 
         <div class="card-body p-4" style="background: #f8fafc;">
             <form method="POST" action="{%url 'update_user' user.id%}">
+                <!-- les alertes -->
                 {% csrf_token %}
                 {% if messages %}
-                {% for message in messages %}
-                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-                <!-- les alertes -->
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
                 
                 <!-- Section Informations personnelles -->
                 <div class="form-section">

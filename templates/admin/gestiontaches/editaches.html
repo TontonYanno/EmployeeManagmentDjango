@@ -95,12 +95,6 @@
     <div class="d-flex justify-content-between align-items-center ">
         <div>
             <h1 class="h3 mb-0">📝 Édition de tâche</h1>
-            <div class="mt-2">
-                <span class="tag">
-                    <i class="fas fa-hashtag me-1"></i>
-                    ID : <?= $task['id'] ?>
-                </span>
-            </div>
         </div>
         <div class="">
             <a href="{% url 'listtasks' %}" class="btn btn-outline-primary">
@@ -110,11 +104,21 @@
     </div>
 
     <!-- Messages d'alerte -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
  
     <!-- Formulaire d'édition -->
-    <form method="POST" action="app/update-task.php" class="needs-validation" novalidate>
+    <form method="POST" action="{%url 'update_task' tache.id %}" class="needs-validation" novalidate>
         <input type="hidden" name="id" value="id">
-
+        {% csrf_token %}
         <div class="row g-4">
             <!-- Colonne de gauche -->
             <div class="col-lg-6">
@@ -125,24 +129,13 @@
                     <div class="card-body p-2">
                         <div class="mb-4">
                             <label for="title" class="form-label fw-medium">Titre <span class="text-danger">*</span></label>
-                            <input type="text"
-                                class="form-control form-control-lg"
-                                id="title"
-                                name="title"
-                                value="title"
-                                required>
-                            <div class="invalid-feedback fw-medium">
-                                Ce champ est obligatoire
-                            </div>
+                            <input type="text"class="form-control form-control-lg"id="title"name="titre" value="{{tache.titre}}"required>
+                            <div class="invalid-feedback fw-medium">Ce champ est obligatoire</div>
                         </div>
 
                         <div class="mb-4">
                             <label for="description" class="form-label fw-medium">Description</label>
-                            <textarea class="form-control"
-                                id="description"
-                                name="description"
-                                rows="4"
-                                placeholder="Décrivez la tâche de manière détaillée..."><?= htmlspecialchars($task['description']) ?></textarea>
+                            <textarea  class="form-control"id="description"name="description"rows="4"placeholder="Décrivez la tâche de manière détaillée...">{{tache.description}}</textarea>
                             <div class="form-text mt-2">
                                 <i class="fas fa-lightbulb me-2 text-warning"></i>
                                 Soyez aussi précis que possible pour une meilleure compréhension
@@ -162,56 +155,41 @@
                         <div class="row g-4">
                             <div class="col-12">
                                 <label for="due_date" class="form-label fw-medium">📅 Date d'échéance</label>
-                                <input type="date"
-                                    class="form-control"
-                                    id="due_date"
-                                    name="due_date"
-                                    value="<?= $task['due_date'] ?>">
-
+                                <input type="date"class="form-control"id="due_date" name="date_limite" value="{{tache.date_limite|date:'Y-m-d'}}" required >
                             </div>
 
                             <div class="col-12">
                                 <label for="assigned_to" class="form-label fw-medium">👤 Assignation</label>
-                                <select class="form-select"
-                                    id="assigned_to"
-                                    name="assigned_to"
-                                    required>
-                                    <option value="">Sélectionner un collaborateur...</option>
-                                    <?php if ($users != 0) : ?>
-                                        <?php foreach ($users as $user) : ?>
-                                            <option value="<?= $user['id'] ?>"
-                                                <?= ($task['assigned_to'] == $user['id']) ? 'selected' : '' ?>>
-                                                <?= htmlspecialchars($user['fullname']) ?>
-                                            </option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
+                                <select class="form-select"id="assigned_to"name="user" required>
+                                    <option value="{{tache.user.id}}">{{tache.user}}</option>
+                                    <option value="">Vous pouvez toujour changer l'utilisateur</option>   
+                                    {% for tests in test %}
+                                        <option value="{{tests.id}}">{{tests.nom_complet}}</option>
+                                    {% endfor %}
                                 </select>
                                 <div class="invalid-feedback fw-medium">
                                     Sélection obligatoire
                                 </div>
                             </div>
-                            <!-- un petit scricpt php ici -->
+                        
                             <div style="display: block;" class="col-12">
                                 <div class="border p-3 rounded-3 bg-light">
                                     <div class="d-flex align-items-center mb-2">
                                         <i class="fas fa-info-circle me-2 text-primary"></i>
                                         <span class="fw-medium">Etat de la tâche</span>
+                                        <br>
+                                        <span> {{tache.archive}} </span>
                                     </div>
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input"
-                                            type="checkbox"
-                                            id="statusToggle"
-                                            <?= $task['archive'] == 'archivé' ? 'checked' : '' ?>>
+                                       
+                                        <input class="form-check-input" type="checkbox" id="statusToggle" {% if archivée  %} checked {% endif %} name="archive" value="1"> 
+                                            
                                         <label class="form-check-label" for="statusToggle">
                                             Marquer comme archivée
                                         </label>
-
                                     </div>
                                     <div class=" align-items-center mb-2">
-                                        <!-- <i class="fas fa-info-circle me-2 text-primary"></i> -->
-                                        <!-- <span class="fw-medium">Mention d'archive</span> -->
-                                        <input type="text" name="mentionarchive"  class="form-control" value="<?= $task['mentionarchive'] ?>"></input>
-
+                                        <input type="text" name="mentionarchive"  class="form-control" value="{{tache.mentionarchive}}"></input>
                                     </div>
                                 </div>
                             </div>
@@ -223,14 +201,9 @@
 
         </div>
 
-
-
         <div class="d-flex justify-content-end ">
-            <button type="submit" class="btn btn-primary btn-custom ">
-                <i class="fas fa-save "></i>Enregistrer
-            </button>
+            <button type="submit" class="btn btn-primary btn-custom "><i class="fas fa-save "></i>Enregistrer</button>
         </div>
-
     </form>
 </main>
 

@@ -42,7 +42,11 @@
               <thead>
                 <tr>
                   <th>Matricule</th>
-                  <th>Nom Complet</th>
+                  <th>
+                    Nom Complet
+                    <br>
+                    username
+                  </th>
                   <th>Rôles</th>
                   <th>Contact</th>
                   <th>Naissance</th>
@@ -55,7 +59,7 @@
                 {% for user in users %}
                 <tr>
                   <td> {{user.matricule}} </td>
-                  <td> {{user.nom_complet}} </td>
+                  <td> {{user.nom_complet}} <br> {{user.username}} </td>
                   <td>{{user.role}}</td>
                   <td> 
                     <div class="small">
