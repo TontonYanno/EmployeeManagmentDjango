@@ -1,5 +1,4 @@
 {% extends 'emp/base.html' %}
-
 {% block content %}
 
 <style>
@@ -8,7 +7,6 @@
         --secondary-color: #4f46e5;
         --background-gradient: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     }
-
 
     .task-card {
         background: white;
@@ -43,7 +41,6 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="task-card p-2">
-
                 <!-- Titre et bouton de retour -->
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h1 class="h3 mb-0">📦 Archiver Tâche</h1>
@@ -51,36 +48,30 @@
                         <i class="fas fa-arrow-left me-2"></i>Retour
                     </a>
                 </div>
-
-
                 <!-- Messages d'alerte -->
-                <?php if (isset($_GET['error'])) : ?>
-                    <div class="alert alert-danger d-flex align-items-center mb-4">
-                        <i class="fas fa-exclamation-triangle me-3"></i>
-                        <div><?php echo htmlspecialchars(stripcslashes($_GET['error'])); ?></div>
-                    </div>
-                <?php endif; ?>
-
-                <?php if (isset($_GET['success'])) : ?>
-                    <div class="alert alert-success d-flex align-items-center mb-4">
-                        <i class="fas fa-check-circle me-3"></i>
-                        <div><?php echo htmlspecialchars(stripcslashes($_GET['success'])); ?></div>
-                    </div>
-                <?php endif; ?>
-
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+              
                 <!-- Détails de la tâche -->
                 <div class="mb-4">
                     <h5 class="fw-medium mb-3">📌 Détails de la tâche</h5>
                     <div class="mb-3">
                         <label class="form-label text-muted">Titre</label>
-                        <div class="form-control bg-light"><?= htmlspecialchars($task['title']) ?></div>
+                        <div class="form-control bg-light">{{tache.titre}}</div>
                     </div>
                 </div>
 
                 <!-- Formulaire d'archivage -->
-                <form method="POST" action="app/archive_task.php">
-                    <input type="hidden" name="id" value="<?= $task['id'] ?>">
-
+                <form method="POST" action="{% url 'archive_tasks' tache.id %}">
+                    {% csrf_token %}
                     <div class="mb-4">
                         <label class="form-label">Mention pour l'administrateur</label>
                         <textarea name="mention" class="form-control" rows="4" placeholder="Ex : J'ai rencontré un problème avec cette tâche..." required></textarea>

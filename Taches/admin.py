@@ -5,7 +5,7 @@ from .models import Tache
 
 @admin.register(Tache)
 class TacheAdmin(admin.ModelAdmin):
-    list_display = ('titre','description', 'statut', 'date_limite', 'user', 'archive', 'date_creation')
+    list_display = ('titre','description', 'statut', 'date_limite', 'user', 'archive', 'mention_archive', 'date_creation')
     search_fields = ('titre', 'user')
     list_filter = ('statut', 'archive')
 
