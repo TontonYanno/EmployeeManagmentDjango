@@ -59,9 +59,9 @@ class="d-flex justify-content-between flex-wrap align-items-center pt-3 pb-2 mb-
                   <td><label class="badge badge-danger">Pending</label></td>
                   <td class="text-danger">
                     <div class="col-md-2 d-flex text-end">
-                      <a href="#" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                      <a href="{% url 'editmytasks' %}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
                     <!-- Ici le bouton pour  archiver doit être affiché si la tâche n'est pas archivée -->
-                    <a style="display:block" href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="fas fa-box-archive"></i></a>
+                    <a style="display:block" href="{% url 'archivetasks' %}" class="btn btn-sm btn-outline-secondary me-1"><i class="fas fa-box-archive"></i></a>
                     </div>
                   </td>
                 </tr>

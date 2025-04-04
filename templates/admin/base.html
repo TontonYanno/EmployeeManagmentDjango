@@ -25,6 +25,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  		<!-- Inclure Bootstrap CSS -->
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://cdn.datatables.net/2.2.1/css/dataTables.bootstrap5.css">
   <!-- <link rel="stylesheet"  href="{% static 'css/adduser.css' %}"> -->
 
 </head>
@@ -108,9 +112,9 @@
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
               <a class="dropdown-item">
                 <i class="ti-settings text-primary"></i>
-                Settings
+                {{user.role}}
               </a>
-              <a class="dropdown-item">
+              <a href="{% url 'logout' %}" class="dropdown-item">
                 <i class="ti-power-off text-primary"></i>
                 Logout
               </a>
@@ -155,7 +159,7 @@
         <ul class="nav">
 
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'dashboard' %}">
               <i class="icon-grid menu-icon"></i>
               <span class="menu-title">Tableau de Bord</span>
             </a>
@@ -169,8 +173,8 @@
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#"> Ajouter Utilisateur </a></li>
-                <li class="nav-item"> <a class="nav-link" href="#"> Gestion Utilisateur </a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'addusers' %}"> Ajouter Utilisateur </a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'listusers' %}"> Gestion Utilisateur </a></li>
               </ul>
             </div>
           </li>
@@ -183,13 +187,13 @@
             </a>
             <div class="collapse" id="auth">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="#"> Ajouter Tâches </a></li>
-                <li class="nav-item"> <a class="nav-link" href="#"> Toutes les Tâches </a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'addtasks' %}"> Ajouter Tâches </a></li>
+                <li class="nav-item"> <a class="nav-link" href="{% url 'listtasks' %}"> Toutes les Tâches </a></li>
               </ul>
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'listconges' %}">
               <i class="icon-grid-2 menu-icon"></i>
               <span class="menu-title">Gestion Congés</span>
               
@@ -199,7 +203,7 @@
           
       
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{%url 'logout' %}">
               <i class="icon-paper menu-icon"></i>
               <span class="menu-title">Deconnexion</span>
             </a>
