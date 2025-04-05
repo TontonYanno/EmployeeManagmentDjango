@@ -1,32 +1,33 @@
-{% extends 'emp/base.html' %}
+{% extends 'admin/gestiontaches/listache.html'  %}
+{% load static %}
 
 {% block content %}
-<!-- Boutons d'action -->
 
 <div class="d-flex flex-wrap justify-content-between mb-2">
+  
   <div class="filter-buttons">
-    <a href="{%url 'mestaches' %}" class="btn btn-secondary btn-custom">
+    <a href="{%url 'listtasks' %}" class="btn btn-secondary btn-custom">
       <i class="fas fa-tasks me-2"></i>Tâches
     </a>
     <a
-      href="{%url 'mycourant' %}"
+      href="{%url 'courant' %}"
       class="btn btn-warning btn-custom">
       <i class="fas fa-infinity me-2"></i>Tâches Courantes
     </a>
     <a
-      href="{%url 'myarchive' %}"
+      href="{%url 'archive' %}"
       class="btn btn-info btn-custom">
       <i class="fas fa-box-archive"></i>Archivées
     </a>
     <a
-      href="{%url 'myretard' %}"
+      href="{%url 'retard' %}"
       class="btn btn-danger btn-custom">
       <i class="fas fa-exclamation-triangle me-2"></i>En retard
     </a>
   </div>
 </div>
 
-<div class="row"> 
+  <div class="row"> 
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
@@ -39,6 +40,7 @@
                   <th>Taches</th>
                   <th>Date Limite</th>
                   <th>Statuts</th>
+                  <th>User</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -60,9 +62,16 @@
                          <label class="badge badge-danger">En attente</label>
                     {% endif %}
                   </td>
+                  <td class="py-1">
+                    <img src=" {% static 'images/faces/face1.jpg' %} " alt="image"/>
+                    <br>
+                    <p> {{tache.user.username}} </p>
+                  </td>
                   <td class="text-danger">
                     <div class="col-md-2 d-flex text-end">
-                      <a href="{% url 'editmytasks' tache.id %}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                      <a href="{% url 'edittask' tache.id   %}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-edit"></i>
+                      </a>
                     <!-- Ici le bouton pour  archiver doit être affiché si la tâche n'est pas archivée -->
                     {% if tache.statut == 'terminee' %}
                       <a style="display:block" href="{% url 'archivetasks' tache.id %}" class="btn btn-sm btn-outline-secondary me-1"><i class="fas fa-box-archive"></i></a>
@@ -77,8 +86,7 @@
         </div>
       </div>
     </div>
-   
-    
-  </div>
-
+  
+</div>
 {% endblock %}
+ 

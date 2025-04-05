@@ -1,28 +1,28 @@
-
-{% extends 'emp/tache/taches.html'  %}
+{% extends 'admin/gestiontaches/listache.html'  %}
+{% load static %}
 
 {% block content %}
 <div class="d-flex flex-wrap justify-content-between mb-2">
-    <div class="filter-buttons">
-      <a href="{%url 'mestaches' %}" class="btn btn-secondary btn-custom">
-        <i class="fas fa-tasks me-2"></i>Tâches
-      </a>
-      <a
-        href="{%url 'mycourant' %}"
-        class="btn btn-warning btn-custom">
-        <i class="fas fa-infinity me-2"></i>Tâches Courantes
-      </a>
-      <a
-        href="{%url 'myarchive' %}"
-        class="btn btn-info btn-custom">
-        <i class="fas fa-box-archive"></i>Archivées
-      </a>
-      <a
-        href="{%url 'myretard' %}"
-        class="btn btn-danger btn-custom">
-        <i class="fas fa-exclamation-triangle me-2"></i>En retard
-      </a>
-    </div>
+  <div class="filter-buttons">
+    <a href="{%url 'listtasks' %}" class="btn btn-secondary btn-custom">
+      <i class="fas fa-tasks me-2"></i>Tâches
+    </a>
+    <a
+      href="{%url 'courant' %}"
+      class="btn btn-warning btn-custom">
+      <i class="fas fa-infinity me-2"></i>Tâches Courantes
+    </a>
+    <a
+      href="{%url 'archive' %}"
+      class="btn btn-info btn-custom">
+      <i class="fas fa-box-archive"></i>Archivées
+    </a>
+    <a
+      href="{%url 'retard' %}"
+      class="btn btn-danger btn-custom">
+      <i class="fas fa-exclamation-triangle me-2"></i>En retard
+    </a>
+  </div>
 </div>
 
 <div class="row"> 
@@ -38,6 +38,7 @@
                 <th>Taches</th>
                 <th>Date Limite</th>
                 <th>Statuts</th>
+                <th>User</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -58,6 +59,10 @@
                    {% else %}
                        <label class="badge badge-danger">En attente</label>
                   {% endif %}
+                </td>
+                <td> 
+                  <img src=" {% static 'images/faces/face1.jpg' %} " alt="image"/>
+                  <br>{{tache.user.username}} 
                 </td>
                 <td class="text-danger">
                   <div class="col-md-2 d-flex text-start">

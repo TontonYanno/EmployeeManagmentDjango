@@ -10,26 +10,20 @@ from django.contrib.auth.decorators import login_required
 #Les Vues Taches de l'employé
 
 def mytasks(request):
-    taches= Tache.objects.filter(user=request.user)  # Filtrer les tâches par utilisateur
+    taches= Tache.objects.filter(user=request.user, archive='non')  # Filtrer les tâches par utilisateur
     return render(request, 'emp/tache/taches.html', {"taches":taches})
 
-def archive(request):
+def myarchive(request):
     taches = Tache.objects.filter(user=request.user, archive='oui')  # Filtrer les tâches archivées par utilisateur
     return render(request, 'emp/tache/etat/archive.html', {"taches":taches}) #pour les taches archivées
 
-def courant(request):
-    taches = Tache.objects.filter(user=request.user, statut = 'en_attente')  # Filtrer les tâches par utilisateur et statut
+def mycourant(request):
+    taches = Tache.objects.filter(user=request.user).filter(Q(statut='en_attente')|Q(statut='en_cours'))  # Filtrer les tâches par utilisateur et statut
     return render(request, 'emp/tache/etat/courant.html',{"taches":taches}) #pour les taches courante(en cours et en attente)
 
-def retard(request):
+def myretard(request):
     today = now().date()
-    taches = Tache.objects.filter(
-        user=request.user,
-        archive='non',
-        date_limite__lt= today  # Filtre les dates dépassées
-    ).filter(
-        Q(statut='en_attente') | Q(statut='en_cours')  # Exclut les tâches terminées
-    )
+    taches = Tache.objects.filter(user=request.user,archive='non',date_limite__lt= today).filter(Q(statut='en_attente') | Q(statut='en_cours'))
     return render(request, 'emp/tache/etat/retard.html', {"taches":taches} ) #pour les taches les taches en retard
 
 def editmytasks(request , id):
@@ -60,11 +54,24 @@ def archive_tasks(request , id):
     return render(request, 'emp/tache/archivetaches.html', {"tache":tache})        
 
 #Les Vues de l'admin 
+
 @login_required
-def addtask(request):
-    users= Utilisateur.objects.all()
-    taches=Tache.objects.all()
-    return render(request, 'admin/gestiontaches/addtaches.html',{"taches":taches,"users":users})
+def listtasks(request):
+    taches= Tache.objects.all().filter(archive='non')  # Filtrer les tâches non archivées
+    return render (request, 'admin/gestiontaches/listache.html',{"taches":taches})
+
+def archive(request):
+    taches= Tache.objects.all().filter(  archive= "oui" )  # Filtrer les tâches non archivées
+    return render(request, 'admin/gestiontaches/etat/archive.html' , {"taches":taches}) #pour afficher les taches archivées
+
+def courant(request):
+    taches= Tache.objects.all().filter( Q(statut= "en_cours")|Q(statut="en_attente") )  # Filtrer les tâches non archivées
+    return render(request, 'admin/gestiontaches/etat/courant.html', {"taches":taches}) #pour afficher les taches courantes
+
+def retard(request):
+    today = now().date()
+    taches = Tache.objects.all().filter(archive='non',date_limite__lt= today).filter(Q(statut='en_attente') | Q(statut='en_cours'))
+    return render(request, 'admin/gestiontaches/etat/retard.html' , {"taches":taches}) 
 
 @login_required
 def add_task(request):
@@ -83,9 +90,10 @@ def add_task(request):
     return redirect('addtasks')  # Rediriger vers la page d'ajout de tâche après la création
 
 @login_required
-def listtasks(request):
-    taches= Tache.objects.all()
-    return render (request, 'admin/gestiontaches/listache.html',{"taches":taches})
+def addtask(request):
+    users= Utilisateur.objects.all()
+    taches=Tache.objects.all()
+    return render(request, 'admin/gestiontaches/addtaches.html',{"taches":taches,"users":users})
 
 @login_required
 def edittask (request, id):
