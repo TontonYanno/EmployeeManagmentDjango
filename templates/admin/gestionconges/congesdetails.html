@@ -1,17 +1,14 @@
 {% extends 'admin/base.html' %}
-
 {% block content %}
 
 <style>
     :root {
-        --primary: #6366f1; /* Bleu */
-        --secondary: #8b5cf6; /* Violet */
+        --primary: #2c2ff0; /* Bleu */
+        --secondary: #5278f3; /* Violet */
         --accent: #a855f7; /* Violet clair */
         --background: #f8fafc; /* Fond clair */
         --text: #1e293b; /* Texte foncé */
     }
-
-
 
     .container {
         max-width: 800px;
@@ -65,21 +62,6 @@
         margin: 8px;
     }
 
-    .btn-approve {
-        background: linear-gradient(to right, var(--primary), var(--secondary));
-        color: white;
-    }
-
-    .btn-reject {
-        background: linear-gradient(to right, #ef4444, #ec4899);
-        color: white;
-    }
-
-    .btn:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
-    }
-
     .status-badge {
         padding: 8px 12px;
         border-radius: 6px;
@@ -100,45 +82,70 @@
 
 <div class="container">
     <h1><i class="fas fa-info-circle"></i> Détails du Congé</h1>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <!-- Grille de détails -->
     <div class="details-grid">
         <!-- Informations de l'employé -->
         <div class="details-card">
             <h3><i class="fas fa-user"></i> Informations de l'Employé</h3>
-            <p><strong>Nom :</strong> John Doe</p>
-            <p><strong>Solde de congés :</strong> 12 jours</p>
-            <p><strong>Statut :</strong> <span class="status-badge status-pending">En attente</span></p>
+            <p><strong>Nom :</strong> {{conges.user.nom_complet}}</p>
+            <p><strong>Nom d'utilisateur :</strong> {{conges.user.username}}</p>
+            <p>
+                {% if conges.statut == 'accepte' %}
+                  <strong> Statut:</strong>  <label class="badge badge-success">Accepté</label>
+                {% elif conges.statut == 'en_attente' %}
+                   <strong> Statut:</strong> <label class="badge badge-warning">En attente</label>
+                {% else %}
+                  <strong> Statut:</strong>  <label class="badge badge-danger">Refusé</label>
+                {% endif %}
+            </p>
         </div>
 
         <!-- Détails de la demande -->
         <div class="details-card">
             <h3><i class="fas fa-calendar-alt"></i> Détails de la Demande</h3>
-            <p><strong>Type de congé :</strong> Congés payés</p>
-            <p><strong>Date de début :</strong> 10/08/2023</p>
-            <p><strong>Date de fin :</strong> 15/08/2023</p>
-            <p><strong>Durée :</strong> 5 jours</p>
+            <p><strong>Type de congé :</strong> {{conges.type}}</p>
+            <p><strong>Date de début :</strong> {{conges.debut}} </p>
+            <p><strong>Date de fin :</strong> {{conges.fin}} </p>
+            <p><strong>Durée :</strong> {{conges.duree}}</p>
         </div>
     </div>
 
     <!-- Note de l'employé -->
-    <div class="details-card" style="margin-bottom: 4px;">
+    <div class="details-card" style="margin-bottom: 6px;">
         <h3><i class="fas fa-comment"></i> Note de l'Employé</h3>
-        <p>"Je dois m'absenter pour raison familiale urgente."</p>
+        <p>{{conges.description}}</p>
     </div>
 
-    <!-- Réponse de l'admin -->
-    <div class="details-card" >
-        <h3><i class="fas fa-edit"></i> Réponse de l'Administrateur</h3>
-        <textarea
-            class="note-field"
-            placeholder="Ajouter une note (optionnel)..."
-            rows="2"></textarea>
-    </div>
-    <!-- Ce bouton doit disparaitre si la demande est déjà traitée -->
-    <button class="btn btn-approve mx-2" type="submit" name="accept">
-        <i class="fas fa-check"></i>Valider
-    </button>
+    <form action=" {% url 'detail_conges' conges.id %} " method="post">
+        {% csrf_token %}
+        {% if conges.statut == 'en_attente' %}
+        <!-- Réponse de l'admin -->
+        <div class="details-card" >
+            <h3><i class="fas fa-edit"></i> Réponse de l'Administrateur</h3>
+            <textarea class="note-field" name="manager_reponse" placeholder="Ajouter une note (optionnel)..."rows="2"> {{conges.manager_reponse}} </textarea>
+        </div>
+        <div class="">
+            <button class="btn btn-primary mx-2" type="submit" name="valider"><i class="fas fa-check"></i>Valider</button>
+            <button class="btn btn-danger mx-2" type="submit" name="refuser"><i class="fas fa-times"></i>Refusé</button>
+        </div>
+        {% else %}
+        <div class="details-card" >
+            <h3><i class="fas fa-edit"></i> Réponse de l'Administrateur</h3>
+            <p> {{conges.manager_reponse}} </p>
+        </div>
+        {% endif %}
+   </form>
 
 </div>
 
