@@ -19,14 +19,17 @@ from django.urls import include, path
 from GestionEmp import views
 
 urlpatterns = [
+    #Les connexions
     path('admin/', admin.site.urls),
     path ('',views.conexion , name='login'),
     path('logout/',views.deconnexion, name='logout'),
-    # Les vues de l'employé 
-    path('mydashboard/',views.userdashboard , name='userdashboard'),
+    # Dashboard de l'employé 
+    path('mydashboard',views.userdashboard , name='userdashboard'),
+    # Dashboard de l'admin 
+    path ('dashboard/', views.dashboard , name='dashboard'),
+    
     path('tasks/', include('Taches.urls')),
     path('user/', include('User.urls')),
     path('conges/', include('Conges.urls')),
-    # Les vues de l'admin 
-    path ('dashboard/', views.dashboard , name='dashboard'),
-]
+    
+ ]   

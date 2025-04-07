@@ -10,15 +10,15 @@ from django.contrib.auth.decorators import login_required
 #Les Vues Taches de l'employé
 
 def mytasks(request):
-    taches= Tache.objects.filter(user=request.user, archive='non')  # Filtrer les tâches par utilisateur
+    taches= Tache.objects.filter(user=request.user, archive='non')  
     return render(request, 'emp/tache/taches.html', {"taches":taches})
 
 def myarchive(request):
-    taches = Tache.objects.filter(user=request.user, archive='oui')  # Filtrer les tâches archivées par utilisateur
+    taches = Tache.objects.filter(user=request.user, archive='oui')  
     return render(request, 'emp/tache/etat/archive.html', {"taches":taches}) #pour les taches archivées
 
 def mycourant(request):
-    taches = Tache.objects.filter(user=request.user).filter(Q(statut='en_attente')|Q(statut='en_cours'))  # Filtrer les tâches par utilisateur et statut
+    taches = Tache.objects.filter(user=request.user).filter(Q(statut='en_attente')|Q(statut='en_cours')) 
     return render(request, 'emp/tache/etat/courant.html',{"taches":taches}) #pour les taches courante(en cours et en attente)
 
 def myretard(request):
@@ -57,15 +57,15 @@ def archive_tasks(request , id):
 
 @login_required
 def listtasks(request):
-    taches= Tache.objects.all().filter(archive='non')  # Filtrer les tâches non archivées
+    taches= Tache.objects.all().filter(archive='non')  
     return render (request, 'admin/gestiontaches/listache.html',{"taches":taches})
 
 def archive(request):
-    taches= Tache.objects.all().filter(  archive= "oui" )  # Filtrer les tâches non archivées
+    taches= Tache.objects.all().filter(  archive= "oui" )  
     return render(request, 'admin/gestiontaches/etat/archive.html' , {"taches":taches}) #pour afficher les taches archivées
 
 def courant(request):
-    taches= Tache.objects.all().filter( Q(statut= "en_cours")|Q(statut="en_attente") )  # Filtrer les tâches non archivées
+    taches= Tache.objects.all().filter( Q(statut= "en_cours")|Q(statut="en_attente") )  
     return render(request, 'admin/gestiontaches/etat/courant.html', {"taches":taches}) #pour afficher les taches courantes
 
 def retard(request):

@@ -1,5 +1,5 @@
-{%extends 'admin/base.html' %} {% block content %}
-
+{%extends 'admin/base.html' %} 
+{% block content %}
 <div class="row">
   <div class="col-md-12 grid-margin">
     <div class="row">
@@ -12,13 +12,12 @@
 
 <div class="row">
   <div class="col-md-8 grid-margin transparent">
-    <div class="row">
+    <div class="row-md-12 stretch-card transparent">
       <div class="col-md-4 mb-2 stretch-card transparent">
         <div class="card card-tale">
           <div class="card-body">
-            <p class="mb-4">Today’s Bookings</p>
-            <p class="fs-30 mb-2">4006</p>
-            <p>10.00% (30 days)</p>
+            <p class="mb-4">Employés</p>
+            <p class="fs-30 mb-2">{{emp}}</p>
           </div>
         </div>
       </div>
@@ -26,31 +25,28 @@
       <div class="col-md-4 mb-2 stretch-card transparent">
         <div class="card card-dark-blue">
           <div class="card-body">
-            <p class="mb-4">Total Bookings</p>
-            <p class="fs-30 mb-2">61344</p>
-            <p>22.00% (30 days)</p>
+            <p class="mb-4">Total des Tâches</p>
+            <p class="fs-30 mb-2">{{all_task}}</p>
           </div>
         </div>
       </div>
 
-      <div class="col-md-4 mb-2 stretch-card transparent">
-        <div class="card card-light-blue">
-          <div class="card-body">
-            <p class="mb-4">Total Bookings</p>
-            <p class="fs-30 mb-2">61344</p>
-            <p>22.00% (30 days)</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="col-md-4 mb-2 stretch-card transparent">
         <div class="card card-light-danger">
           <div class="card-body">
-            <p class="mb-4">Number of Clients</p>
-            <p class="fs-30 mb-2">47033</p>
-            <p>0.22% (30 days)</p>
+            <p class="mb-4">Total en Retard</p>
+            <p class="fs-30 mb-2">{{retard}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row-md-12 stretch-card transparent">
+      <div class="col-md-4 mb-2 stretch-card transparent">
+        <div class="card card-light-danger">
+          <div class="card-body">
+            <p class="mb-4">Taches en Cour</p>
+            <p class="fs-30 mb-2"> {{ en_cours}} </p>
           </div>
         </div>
       </div>
@@ -58,30 +54,27 @@
       <div class="col-md-4 mb-2 stretch-card transparent">
         <div class="card card-light-blue">
           <div class="card-body">
-            <p class="mb-4">Number of Meetings</p>
-            <p class="fs-30 mb-2">34040</p>
-            <p>2.00% (30 days)</p>
+            <p class="mb-4">Tache en Attente</p>
+            <p class="fs-30 mb-2"> {{ en_attente}} </p>
           </div>
         </div>
       </div>
 
       <div class="col-md-4 mb-2 stretch-card transparent">
-        <div class="card card-dark-blue">
+        <div class="card card-light-blue">
           <div class="card-body">
-            <p class="mb-4">Total Bookings</p>
-            <p class="fs-30 mb-2">61344</p>
-            <p>22.00% (30 days)</p>
+            <p class="mb-4">Taches Terminés</p>
+            <p class="fs-30 mb-2"> {{ termine}} </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row-md-12 stretch-card transparent">
       <div class="col-md-4 mb-2 stretch-card transparent">
         <div class="card card-tale">
           <div class="card-body">
             <p class="mb-4">Today’s Bookings</p>
             <p class="fs-30 mb-2">4006</p>
-            <p>10.00% (30 days)</p>
           </div>
         </div>
       </div>
@@ -91,7 +84,6 @@
           <div class="card-body">
             <p class="mb-4">Total Bookings</p>
             <p class="fs-30 mb-2">61344</p>
-            <p>22.00% (30 days)</p>
           </div>
         </div>
       </div>
@@ -101,7 +93,6 @@
           <div class="card-body">
             <p class="mb-4">Total Bookings</p>
             <p class="fs-30 mb-2">61344</p>
-            <p>22.00% (30 days)</p>
           </div>
         </div>
       </div>

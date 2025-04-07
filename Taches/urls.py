@@ -21,7 +21,7 @@ urlpatterns = [
    path('courant/', views.courant, name='courant'), #pour afficher les taches courantes
    path('retard/', views.retard, name='retard'), #pour afficher les taches en retards
    
-   path('addtask/', views.addtask, name='addtasks'),
+   path('addtask/', views.addtask, name='addtasks'),#pour afficher la Vue qui fera ajouter des tâches
    path('add_task/', views.add_task, name='add_task'), #le traitement de l'ajout d'une tache
    
    path('edittask/<int:id>/', views.edittask, name='edittask'), #affichage

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     
     'User',
     'Taches',
+    'Conges',
 ]
 
 AUTH_USER_MODEL = 'User.Utilisateur'
