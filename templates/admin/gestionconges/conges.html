@@ -97,38 +97,41 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        foreach (get_leave($conn) as $result) { ?>
-                            <tr class="leave-card">
-                                <!-- <td>  </td> -->
-
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="me-3">
-                                            <i class="fas fa-calendar-alt text-primary"></i>
-                                        </div>
-                                        <div>
-                                            <div class="fw-bold"><?= $result['type'] ?></div>
-                                            <div class="text-muted"><?= $debut = date('d/m/y', strtotime($result['debut'])) ?> au <?= $fin = date('d/m/y', strtotime($result['fin'])) ?></div>
-                                        </div>
+                        {% for conge in conges %}
+                        <tr class="leave-card">
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <i class="fas fa-calendar-alt text-primary"></i>
                                     </div>
-                                </td>
-                                <!-- ici il ya Calcul de la durée  -->
-                            
-                                <td>
-                                    <div class="fw-bold"><?= $days ?></div>
-                                </td>
-                                <!-- Ici il ya un travail pour les couleur des status -->
-                                <td>
-                                    <span class="status-badge <?= $statuts ?>"><?= $result['statuts'] ?></span>
-                                </td>
-                                <td>
-                                    <a class="btn btn-sm btn-outline-primary" href="{%url 'detailconges' %}">
-                                        <i class="fa-solid fa-circle-info"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php } ?>
+                                    <div>
+                                        <div class="fw-bold">{{conge.type}}</div>
+                                        <div class="text-muted">{{conge.debut}} au {{conge.fin}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- ici il ya Calcul de la durée  -->
+                        
+                            <td>
+                                <div class="fw-bold">{{conge.duree}}</div>
+                            </td>
+                            <!-- Ici il ya un travail pour les couleur des status -->
+                            <td>
+                                {% if conge.statut == 'accepte' %}
+                                    <label class="badge badge-success">Accepté</label>
+                                {% elif conge.statut == 'en_attente' %}
+                                    <label class="badge badge-warning">En Attente</label>
+                                {% else %}
+                                    <label class="badge badge-danger">Refusé</label>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-outline-primary" href="{%url 'detailconges' conge.id  %}">
+                                    <i class="fa-solid fa-circle-info"></i>
+                                </a>
+                            </td>
+                        </tr>  
+                         {% endfor %}   
                     </tbody>
                 </table>
             </div>

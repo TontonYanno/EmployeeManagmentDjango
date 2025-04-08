@@ -1,8 +1,30 @@
 {% extends 'admin/base.html' %}
-
 {% load static %}
-
 {% block content %}
+
+<div class="d-flex flex-wrap justify-content-between mb-2">
+  <div class="filter-buttons">
+    <a href="{%url 'listtasks' %}" class="btn btn-secondary btn-custom">
+      <i class="fas fa-tasks me-2"></i>Tâches
+    </a>
+    <a
+      href="{%url 'courant' %}"
+      class="btn btn-warning btn-custom">
+      <i class="fas fa-infinity me-2"></i>Tâches Courantes
+    </a>
+    <a
+      href="{%url 'archive' %}"
+      class="btn btn-info btn-custom">
+      <i class="fas fa-box-archive"></i>Archivées
+    </a>
+    <a
+      href="{%url 'retard' %}"
+      class="btn btn-danger btn-custom">
+      <i class="fas fa-exclamation-triangle me-2"></i>En retard
+    </a>
+  </div>
+</div>
+
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">

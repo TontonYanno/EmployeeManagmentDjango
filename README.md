@@ -26,3 +26,18 @@ QUELQUES REGLES DE GESTION
 
 /!\ Pour le moment tu va sciencer la fonctionnaliité d'authnetification là d'abord 
 JE pense pouvoir gerer le reste
+
+Modèle  Tache
+  titre
+  description
+  statut(en_attente|en_cours| terminée)
+  user (clé étrangère sur Utilisateur)
+  archive(oui|non)
+  mention_archive
+  date_limite
+  date_creation(now date)
+
+/!\ Après la construction du Modèle congés je revenir
+terminé les dashboard 
+
+

@@ -4,6 +4,8 @@ from django.contrib.auth.hashers import is_password_usable
 from django.contrib import messages
 from django.contrib.auth.hashers import check_password, make_password
 from User.models import Utilisateur
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 # Create your views here.
@@ -73,6 +75,9 @@ def register(request):
         role = request.POST.get('role')
         password = request.POST.get('password')
       
+        if Utilisateur.objects.filter(username=username).exists():
+            messages.error(request, "Ce nom d'utilisateur est déjà utilisé. Veuillez en choisir un autre.")
+            return redirect("addusers")
         if Utilisateur.objects.filter(email=email).exists():
             messages.error(request, "Cet email est déjà utilisé.")
             return redirect("addusers")
@@ -81,20 +86,18 @@ def register(request):
             return redirect("addusers")
         
         # Enregistrement de l'utilisateur
-        user = Utilisateur.objects.create_user(
-            username=username,
-            email=email,
-            nom_complet=nom_complet,
-            sexe=sexe,
-            telephone=telephone,
-            adresse=adresse,
-            date_naissance=date_naissance,
-            role=role,
-            password=password,
-            matricule=matricule,
-        )
+        user = Utilisateur.objects.create_user(username=username,email=email,nom_complet=nom_complet,sexe=sexe,telephone=telephone,adresse=adresse,date_naissance=date_naissance,role=role,password=password,matricule=matricule,)
         user.save()
-        # messages.success(request, "Utilisateur ajouté avec succès !")
+         # ✅ Envoi de mail
+        send_mail(
+            subject="Bienvenue sur votre espace de travail",
+            message=f"Bonjour M/Mme {username},\n\nNous sommes ravis de vous accueillir sur notre plateforme. Votre compte a été activé avec succès.\n\nVoici vos informations de connexion :\n\nNom d'utilisateur : {username}\nMot de passe : {password}\n\nNous vous recommandons de changer votre mot de passe après votre première connexion.\n\nCordialement,\nL'équipe de [Nom de l'entreprise]",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email],
+            fail_silently=False,
+        )
+        
+        messages.success(request, "Utilisateur ajouté avec succès !")
         return redirect('listusers')  # Redirige vers la liste des utilisateurs
     
     return render(request, 'admin/gestionuser/adduser.html')
