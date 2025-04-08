@@ -6,6 +6,7 @@ from django.utils.timezone import now
 from django.db.models import Q
 from Taches.models import Tache
 from User.models import Utilisateur
+from Conges.models import Conges
 
 #La fonction de login
 
@@ -43,7 +44,13 @@ def userdashboard(request):
     en_attente=Tache.objects.filter(user=request.user, statut='en_attente').count()
     en_cours=Tache.objects.filter(user=request.user, statut='en_cours').count()
     en_retard=Tache.objects.filter(user=request.user, date_limite__lt=now().date()).filter(Q( statut='en_attente')|Q( statut='en_cours')).count()
-    return render(request, 'emp/dashboard.html', {'total':total, 'en_attente':en_attente, 'en_cours':en_cours, 'en_retard':en_retard})
+    conge= Conges.objects.filter(user= request.user).count()
+    conges_accepter= Conges.objects.filter(user=request.user, statut='accepte').count()
+    conges_refuser = Conges.objects.filter( user= request.user , statut='refuse').count()
+    
+    archive= Tache.objects.filter(user=request.user, archive='oui').count()
+    valeur = {'total':total, 'en_attente':en_attente, 'en_cours':en_cours, 'en_retard':en_retard, 'conge':conge, 'conges_accepter':conges_accepter, "conges_refuser":conges_refuser, "archive": archive}
+    return render(request, 'emp/dashboard.html', valeur )
 
 @login_required
 def dashboard(request):
@@ -53,4 +60,8 @@ def dashboard(request):
     en_attente=Tache.objects.filter( statut='en_attente').count()
     en_cours=Tache.objects.filter( statut='en_cours').count()
     termine= Tache.objects.filter(statut="terminee").count()
-    return render(request, 'admin/dashboard.html', {'emp':emp, 'all_task':all_task, "retard":retard , 'en_attente':en_attente, 'en_cours':en_cours,'termine':termine,})
+    
+    all_conges = Conges.objects.all().count()
+    conges_en_attente = Conges.objects.filter(statut="en_attente").count()
+    conges_accepter= Conges.objects.filter(statut="accepte").count()
+    return render(request, 'admin/dashboard.html', {"conges_accepter": conges_accepter, "conges_en_attente":conges_en_attente, 'emp':emp, 'all_task':all_task, "retard":retard , 'en_attente':en_attente, 'en_cours':en_cours,'termine':termine,"all_conges":all_conges})
