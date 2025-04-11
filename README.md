@@ -37,7 +37,16 @@ Modèle  Tache
   date_limite
   date_creation(now date)
 
-/!\ Après la construction du Modèle congés je revenir
-terminé les dashboard 
+Modèle Conges 
+  type
+  description
+  statut(en_attente|accepte|refuse)
+  user (clé étranger sur Utilisateur )
+  vu (True|False)
+  manager_reponse
+  date_reponse
+  debut
+  fin
+  date_demande
 
 

@@ -1,7 +1,17 @@
 {% extends 'emp/base.html' %}
 {% block content %}
 
-<div class="w-100 p-4">
+<div class="w-100 ">
+    <!-- Section photo -->
+    <div class="card mb-2 "  style="width: 18rem; margin: 0 auto; ">
+        <img src=" {{user.photo.url}} " class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-text">Vous pouvez changer votre photo de profile</p>
+          <a class="btn btn-outline-secondary btn-sm" href=" {% url 'editphoto' %} ">
+            <i class="fas fa-edit me-2"></i>Modifier
+          </a>
+        </div>
+    </div>
   
     <!-- Section Informations personnelles -->
     <div class="card info-card mb-4">
@@ -75,7 +85,7 @@
     </div>
 
     <!-- Section Sécurité -->
-    <div class="card info-card">
+    <div class="card info-card mb-4">
         <div class="card-header bg-warning text-dark">
             <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Sécurité</h5>
         </div>
@@ -94,6 +104,9 @@
             </div>
         </div>
     </div>
+
+    
+    
 </div>
 
 {% endblock %}
