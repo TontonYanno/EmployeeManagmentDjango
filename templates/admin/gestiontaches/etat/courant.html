@@ -61,7 +61,7 @@
                     {% endif %}
                   </td>
                   <td> 
-                    <img src=" {% static 'images/faces/face1.jpg' %} " alt="image"/>
+                    <img src=" {{tache.user.photo.url}} " alt="image"/>
                     <br>{{tache.user.username}} 
                   </td>
                   <td class="text-danger">

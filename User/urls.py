@@ -6,6 +6,8 @@ urlpatterns = [
     path('myprofile', views.myprofile, name='myprofile'),
     path('changepassword/', views.editprofile, name='editprofile'),
     path('change_password/', views.change_password, name='change_password'), #le traitement du changement de mot de passe
+    path('changephoto/', views.editphoto, name='editphoto'),
+    path('change_photo/', views.change_photo, name='change_photo'), #le traitement du changement de photo de profil
     
     #Les routes pour l'admin
     path('adduser/', views.users, name='addusers'),

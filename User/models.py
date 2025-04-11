@@ -14,6 +14,7 @@ class Utilisateur(AbstractUser):
     adresse = models.TextField()
     date_naissance=models.DateField(null=True, blank=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="employe")
+    photo = models.ImageField(upload_to='photos_profiles/', null=True, blank=True)
 
     # Supprimer le champ `username` qui est inclus par défaut dans `AbstractUser`
 

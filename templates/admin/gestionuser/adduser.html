@@ -108,7 +108,7 @@
         </div>
 
         <div class="card-body p-4" style="background: #f8fafc;">
-            <form method="POST" action="{% url 'add_user' %}">
+            <form method="POST" enctype="multipart/form-data" action="{% url 'add_user' %}">
                 {% csrf_token %}
                 
                 {% if messages %}
@@ -180,6 +180,7 @@
                             <label class="form-label required-label">Adresse</label>
                             <textarea required class="form-control shadow-sm" name="adresse" rows="2" placeholder="12 Rue de la Paix, 75001 Paris"></textarea>
                         </div>
+                       
                     </div>
                 </div>
 

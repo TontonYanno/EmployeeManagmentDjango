@@ -22,8 +22,7 @@ def editprofile(request):
     return render(request, 'emp/profile/editprofile.html', {"user":user})
 
 def change_password(request):
-    if request.method == "POST":
-        
+    if request.method == "POST": 
         password = request.POST.get("password")
         user= request.user
         password_hashed = user.password
@@ -48,6 +47,22 @@ def change_password(request):
                 messages.error(request, "Les mots de passe ne correspondent pas.")
     return render(request, "emp/profile/editprofile.html")
 
+def editphoto(request):
+    user = request.user
+    return render(request, 'emp/profile/editphoto.html', {"user":user})
+
+def change_photo(request):
+    if request.method == "POST":
+        user = request.user
+        photo = request.FILES.get('photo')
+        if photo:
+            user.photo = photo
+            user.save()
+            messages.success(request, "Photo de profil mise à jour avec succès !")
+            return redirect("editphoto")  # Redirige vers le dashboard après changement    
+        else:
+            messages.error(request, "Veuillez télécharger une image valide.")      
+    return render(request, "emp/profile/editphoto.html")
 
 #Les Vues Admin
 @login_required
@@ -73,6 +88,7 @@ def register(request):
         adresse = request.POST.get('adresse')
         date_naissance = request.POST.get('date_naissance')
         role = request.POST.get('role')
+        photo = "photos_profiles/user.jpg"
         password = request.POST.get('password')
       
         if Utilisateur.objects.filter(username=username).exists():
@@ -86,12 +102,12 @@ def register(request):
             return redirect("addusers")
         
         # Enregistrement de l'utilisateur
-        user = Utilisateur.objects.create_user(username=username,email=email,nom_complet=nom_complet,sexe=sexe,telephone=telephone,adresse=adresse,date_naissance=date_naissance,role=role,password=password,matricule=matricule,)
+        user = Utilisateur.objects.create_user(username=username,email=email,nom_complet=nom_complet,sexe=sexe,telephone=telephone,photo=photo, adresse=adresse,date_naissance=date_naissance,role=role,password=password,matricule=matricule,)
         user.save()
          # ✅ Envoi de mail
         send_mail(
             subject="Bienvenue sur votre espace de travail",
-            message=f"Bonjour M/Mme {username},\n\nNous sommes ravis de vous accueillir sur notre plateforme. Votre compte a été activé avec succès.\n\nVoici vos informations de connexion :\n\nNom d'utilisateur : {username}\nMot de passe : {password}\n\nNous vous recommandons de changer votre mot de passe après votre première connexion.\n\nCordialement,\nL'équipe de [Nom de l'entreprise]",
+            message=f"Bonjour M/Mme {nom_complet},\n\nNous sommes ravis de vous accueillir sur notre plateforme. Votre compte a été activé avec succès.\n\nVoici vos informations de connexion :\n\nNom d'utilisateur : {username}\nMot de passe : {password}\n\nNous vous recommandons de changer votre mot de passe après votre première connexion.\n\nCordialement,\nL'équipe de [Nom de l'entreprise]",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[email],
             fail_silently=False,
