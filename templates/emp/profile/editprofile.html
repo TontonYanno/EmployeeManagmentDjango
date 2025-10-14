@@ -1,97 +1,109 @@
-{% extends 'emp/base.html' %}
-
-{% block content %}
+{% extends 'emp/base.html' %} {% block content %}
 
 <div class="w-100">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class=""></div>
-        <a href="profile.php" class="btn btn-primary">
-        <i class="fas fa-arrow-left me-2"></i>Retour
-        </a>
-    </div>
-    <!-- <h4 class="title">Edit Profile <a href="profile.php">Profile</a></h4> -->
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
-                <div class="card password-card">
-                    <div class="card-header bg-white border-0 pt-4">
-                        <h3 class="text-center mb-0">
-                            <i class="fas fa-lock me-2"></i>Changer le mot de passe
-                        </h3>
-                    </div>
-                    <div class="card-body px-4 pt-2">
-                        <form id="passwordForm" method="POST" action="app/update-profile.php">
-                            <!-- Les alertes -->
-                            <?php if (isset($_GET['error'])) { ?>
-                                <div class="alert alert-danger" role="alert">
-                                    <?php echo stripcslashes($_GET['error']); ?>
-                                </div>
-                            <?php } ?>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class=""></div>
+    <a href="{% url 'myprofile' %}" class="btn btn-primary">
+      <i class="fas fa-arrow-left me-2"></i>Retour
+    </a>
+  </div>
+  <!-- <h4 class="title">Edit Profile <a href="profile.php">Profile</a></h4> -->
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="card password-card">
+          <div class="card-header bg-white border-0 pt-4">
+            <h3 class="text-center mb-0">
+              <i class="fas fa-lock me-2"></i>Changer le mot de passe
+            </h3>
+          </div>
+          <div class="card-body px-4 pt-2">
+            <form
+              id="passwordForm"
+              method="POST"
+              action="{% url 'change_password' %}"
+            >
+              {% csrf_token %}
+              <!-- Les alertes -->
+              {% if messages %}
+              {% for message in messages %}
+                  <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                      {{ message }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+              {% endfor %}
+          {% endif %}
+          
+              <!-- Mot de passe actuel -->
+              <div class="mb-4">
+                <label class="form-label">Mot de passe actuel</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-lock"></i
+                  ></span>
+                  <input type="password"class="form-control"name="password"id="currentPassword"required/>
 
-                            <?php if (isset($_GET['success'])) { ?>
-                                <div class="alert alert-success" role="alert">
-                                    <?php echo stripcslashes($_GET['success']); ?>
-                                </div>
-                            <?php } ?>
-                            <!-- Mot de passe actuel -->
-                            <div class="mb-4">
-                                <label class="form-label">Mot de passe actuel</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                                    <input type="password"
-                                        class="form-control"
-                                        name="password"
-                                        id="currentPassword"
-                                        required>
-                                </div>
-                            </div>
-
-                            <!-- Nouveau mot de passe -->
-                            <div class="mb-4">
-                                <label class="form-label">Nouveau mot de passe</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                    <input type="password"
-                                        class="form-control"
-                                        name="new_password"
-                                        id="newPassword"
-                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                                        required>
-                                </div>
-                                <div class="mt-2">
-                                    <div class="password-strength bg-secondary" id="passwordStrength"></div>
-                                    <small class="form-text text-muted">
-                                        8 caractères minimum, 1 majuscule, 1 chiffre
-                                    </small>
-                                </div>
-                            </div>
-
-                            <!-- Confirmation -->
-                            <div class="mb-4">
-                                <label class="form-label">Confirmer le mot de passe</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-check-circle"></i></span>
-                                    <input type="password"
-                                        class="form-control"
-                                        name="confirm_password"
-                                        id="confirmPassword"
-                                        required>
-                                </div>
-                                <div class="invalid-feedback" id="confirmFeedback">
-                                    Les mots de passe ne correspondent pas
-                                </div>
-                            </div>
-
-                            <button type="submit"
-                                class="btn btn-primary w-100 py-2 fw-bold">
-                                <i class="fas fa-sync me-2"></i>Mettre à jour
-                            </button>
-                        </form>
-                    </div>
                 </div>
-            </div>
+              </div>
+
+              <!-- Nouveau mot de passe -->
+              <div class="mb-4">
+                <label class="form-label">Nouveau mot de passe</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-key"></i
+                  ></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="new_password"
+                    id="newPassword"
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                    required
+                  />
+                </div>
+                <div class="mt-2">
+                  <div
+                    class="password-strength bg-secondary"
+                    id="passwordStrength"
+                  ></div>
+                  <small class="form-text text-muted">
+                    8 caractères minimum, 1 majuscule, 1 chiffre
+                  </small>
+                </div>
+              </div>
+
+              <!-- Confirmation -->
+              <div class="mb-4">
+                <label class="form-label">Confirmer le mot de passe</label>
+                <div class="input-group">
+                  <span class="input-group-text"
+                    ><i class="fas fa-check-circle"></i
+                  ></span>
+                  <input
+                    type="password"
+                    class="form-control"
+                    name="confirm_password"
+                    id="confirmPassword"
+                    required
+                  />
+                </div>
+                <div class="invalid-feedback" id="confirmFeedback">
+                  Les mots de passe ne correspondent pas
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
+                <i class="fas fa-sync me-2"></i>Mettre à jour
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 {% endblock %}

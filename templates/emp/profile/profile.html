@@ -1,7 +1,17 @@
 {% extends 'emp/base.html' %}
 {% block content %}
 
-<div class="w-100 p-4">
+<div class="w-100 ">
+    <!-- Section photo -->
+    <div class="card mb-2 "  style="width: 18rem; margin: 0 auto; ">
+        <img src=" {{user.photo.url}} " class="card-img-top" alt="...">
+        <div class="card-body">
+          <p class="card-text">Vous pouvez changer votre photo de profile</p>
+          <a class="btn btn-outline-secondary btn-sm" href=" {% url 'editphoto' %} ">
+            <i class="fas fa-edit me-2"></i>Modifier
+          </a>
+        </div>
+    </div>
   
     <!-- Section Informations personnelles -->
     <div class="card info-card mb-4">
@@ -16,22 +26,23 @@
                     <dl class="row">
                         <dt class="col-sm-4">Nom complet</dt>
                         <dd class="col-sm-8" >
-                            KOFFI Konan Matthieu
+                            {{ user.nom_complet }}
                         </dd>
 
                         <dt class="col-sm-4">Matricule</dt>
-                        <dd class="col-sm-8" > 14 126 266 F </dd>
+                        <dd class="col-sm-8" > {{ user.matricule }}</dd>
 
                         <dt class="col-sm-4">Sexe</dt>
-                        <dd class="col-sm-8" >M</dd>
+                        <dd class="col-sm-8" >{{ user.sexe }}</dd>
                     </dl>
                 </div>
                 <div class="col-md-6">
                     <dl class="row">
+                        <dt class="col-sm-4">Nom Utilisateur</dt>
+                        <dd class="col-sm-8" >{{user.username}}</dd>
+
                         <dt class="col-sm-4">Date de naissance</dt>
-                        <dd class="col-sm-8" >
-                            Paris, le 03/11/2003
-                        </dd>
+                        <dd class="col-sm-8" >{{user.date_naissance}}</dd>
                     </dl>
                 </div>
             </div>
@@ -51,12 +62,12 @@
                     <dl class="row">
                         <dt class="col-sm-4">Email</dt>
                         <dd class="col-sm-8" >
-                            yanncodeur1@gmail.com
+                            {{ user.email }}
                         </dd>
 
                         <dt class="col-sm-4">Téléphone</dt>
                         <dd class="col-sm-8" >
-                            +225 0172011588
+                            {{ user.telephone }}
 
                         </dd>
                     </dl>
@@ -65,7 +76,7 @@
                     <dl class="row">
                         <dt class="col-sm-4">Adresse</dt>
                         <dd class="col-sm-8" >
-                            Cité ATCI
+                            {{ user.adresse }}
                         </dd>
                     </dl>
                 </div>
@@ -74,7 +85,7 @@
     </div>
 
     <!-- Section Sécurité -->
-    <div class="card info-card">
+    <div class="card info-card mb-4">
         <div class="card-header bg-warning text-dark">
             <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Sécurité</h5>
         </div>
@@ -84,7 +95,7 @@
                     <div
                         class="d-flex justify-content-between align-items-center mb-3">
                         <span>Mot de passe</span>
-                        <a class="btn btn-outline-secondary btn-sm" href="edit_profile.php">
+                        <a class="btn btn-outline-secondary btn-sm" href="{% url 'editprofile' %}">
                             <i class="fas fa-edit me-2"></i>Modifier
                         </a>
                     </div>
@@ -93,6 +104,9 @@
             </div>
         </div>
     </div>
+
+    
+    
 </div>
 
 {% endblock %}

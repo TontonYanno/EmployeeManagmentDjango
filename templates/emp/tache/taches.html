@@ -1,40 +1,32 @@
 {% extends 'emp/base.html' %}
 
 {% block content %}
-<!-- 
-<div
-class="d-flex justify-content-between flex-wrap align-items-center pt-3 pb-2 mb-4 border-bottom">
-<h1 class="h2">Gestion des Tâches</h1>
-</div> -->
-
 <!-- Boutons d'action -->
+
 <div class="d-flex flex-wrap justify-content-between mb-2">
-  
   <div class="filter-buttons">
-    <a href="my_task.php" class="btn btn-secondary btn-custom">
+    <a href="{%url 'mestaches' %}" class="btn btn-secondary btn-custom">
       <i class="fas fa-tasks me-2"></i>Tâches
     </a>
     <a
-      href="my_task.php?due_date=Backlog"
+      href="{%url 'mycourant' %}"
       class="btn btn-warning btn-custom">
       <i class="fas fa-infinity me-2"></i>Tâches Courantes
     </a>
     <a
-      href="my_task.php?due_date=archivé"
+      href="{%url 'myarchive' %}"
       class="btn btn-info btn-custom">
       <i class="fas fa-box-archive"></i>Archivées
     </a>
     <a
-      href="my_task.php?due_date=Overdue"
+      href="{%url 'myretard' %}"
       class="btn btn-danger btn-custom">
       <i class="fas fa-exclamation-triangle me-2"></i>En retard
     </a>
   </div>
 </div>
 
-
-<div class="row">
-    
+<div class="row"> 
     <div class="col-md-12 grid-margin stretch-card">
       <div class="card">
         <div class="card-body">
@@ -45,37 +37,40 @@ class="d-flex justify-content-between flex-wrap align-items-center pt-3 pb-2 mb-
               <thead>
                 <tr>
                   <th>Taches</th>
+                  <th>Date Limite</th>
                   <th>Statuts</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
+                {% for tache in taches %}
                 <tr>
                   <td>
-                    <h5 class="mb-1 fw-bold"> Lorem, ipsum dolor.</h5>
+                    <h5 class="mb-1 fw-bold"> {{tache.titre}}</h5>
                     <br>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum, alias. </p>
+                    <p>{{tache.description}} </p>
                   </td>
-                  <td><label class="badge badge-danger">Pending</label></td>
+                  <td> {{tache.date_limite}} </td>
+                  <td>
+                    {% if tache.statut == 'terminee' %}
+                        <label class="badge badge-success">Terminée</label>
+                    {% elif tache.statut == 'en_cours' %}
+                        <label class="badge badge-warning">En cours</label>
+                     {% else %}
+                         <label class="badge badge-danger">En attente</label>
+                    {% endif %}
+                  </td>
                   <td class="text-danger">
                     <div class="col-md-2 d-flex text-end">
-                      <a href="#" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
+                      <a href="{% url 'editmytasks' tache.id %}" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil"></i></a>
                     <!-- Ici le bouton pour  archiver doit être affiché si la tâche n'est pas archivée -->
-                    <a style="display:block" href="#" class="btn btn-sm btn-outline-secondary me-1"><i class="fas fa-box-archive"></i></a>
+                    {% if tache.statut == 'terminee' %}
+                      <a style="display:block" href="{% url 'archivetasks' tache.id %}" class="btn btn-sm btn-outline-secondary me-1"><i class="fas fa-box-archive"></i></a>
+                    {% endif %}
                     </div>
                   </td>
                 </tr>
-                <tr>
-                  <td>Messsy</td>
-                  <td><label class="badge badge-warning">In progress</label></td>
-                  <td class="text-danger"> 21.06% <i class="ti-arrow-down"></i></td>
-                </tr>
-                <tr>
-                  <td>Peter</td>
-                  <td><label class="badge badge-success">Completed</label></td>
-                  <td class="text-success"> 82.00% <i class="ti-arrow-up"></i></td>
-                </tr>
-                
+                {% endfor %}
               </tbody>
             </table>
           </div>

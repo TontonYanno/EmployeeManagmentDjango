@@ -120,25 +120,34 @@
         <!-- Informations de l'employé -->
         <div class="details-card">
             <h3><i class="fas fa-user"></i> Informations de l'Employé</h3>
-            <p><strong>Nom :</strong> John Doe</p>
-            <p><strong>Solde de congés :</strong> 12 jours</p>
-            <p><strong>Statut :</strong> <span class="status-badge status-pending">En attente</span></p>
+            <p><strong>Noms :</strong> {{conge.user.nom_complet}}</p>
+            <p><strong>Nom d'utilisateur :</strong> {{conge.user.username}} </p>
+            <p>
+                {% if conge.statut == 'accepte' %}
+                <strong> Statut:</strong> <label class="badge badge-success">Accepté</label>
+                {% elif conge.statut == 'en_attente' %}
+                    <strong> Statut:</strong> <label class="badge badge-warning">En attente</label>
+                {% else %}
+                   <strong> Statut:</strong>  <label class="badge badge-danger">Refusé</label>
+                {% endif %}
+            </p>
         </div>
 
         <!-- Détails de la demande -->
         <div class="details-card">
             <h3><i class="fas fa-calendar-alt"></i> Détails de la Demande</h3>
-            <p><strong>Type de congé :</strong> Congés payés</p>
-            <p><strong>Date de début :</strong> 10/08/2023</p>
-            <p><strong>Date de fin :</strong> 15/08/2023</p>
-            <p><strong>Durée :</strong> 5 jours</p>
+            <p><strong>Type de congé :</strong> {{conge.type}}</p>
+            <p><strong>Date de début :</strong> {{conge.debut}}</p>
+            <p><strong>Date de fin :</strong> {{conge.fin}}</p>
+            
+            <p><strong>Durée :</strong> {{conge.duree}}</p>
         </div>
     </div>
 
     <!-- Note de l'employé -->
     <div class="details-card" style="margin-bottom: 4px;">
         <h3><i class="fas fa-comment"></i> Note de l'Employé</h3>
-        <p>"Je dois m'absenter pour raison familiale urgente."</p>
+        <p>{{conge.description}}</p>
     </div>
 
     <!-- Réponse de l'admin -->
@@ -147,7 +156,7 @@
         <textarea
             class="note-field"
             placeholder="Ajouter une note (optionnel)..."
-            rows="2"></textarea>
+            rows="2"> {{conge.manager_reponse}} </textarea>
     </div>
     <br>
 
