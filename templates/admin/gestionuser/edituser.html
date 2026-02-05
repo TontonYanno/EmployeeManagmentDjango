@@ -104,53 +104,46 @@
         </div>
 
         <div class="card-body p-4" style="background: #f8fafc;">
-            <form method="POST" action="app/update-user.php">
+            <form method="POST" action="{%url 'update_user' user.id%}">
                 <!-- les alertes -->
-                <?php if (isset($_GET['error'])) { ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?php echo stripcslashes($_GET['error']); ?>
-                    </div>
-                <?php } ?>
-
-                <?php if (isset($_GET['success'])) { ?>
-                    <div class="alert alert-success" role="alert">
-                        <?php echo stripcslashes($_GET['success']); ?>
-                    </div>
-                <?php } ?>
+                {% csrf_token %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
                 <!-- Section Informations personnelles -->
                 <div class="form-section">
                     <h5>📝 Informations personnelles</h5>
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label required-label">Nom complet</label>
-                            <input type="text" name="full_name" class="form-control shadow-sm" value="<?= $user['fullname'] ?>">
-                            <input type="text" name="id" value="<?= $user['id'] ?>" hidden>
+                            <input type="text" name="nom_complet" class="form-control shadow-sm" value="{{user.nom_complet}}">
+                            <input type="text" name="id" value="{{user.id}}" hidden>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label required-label">Nom d'utilisateur</label>
                             <div class="input-group">
-                                <span class="input-group-text">@</span>
-                                <input type="text" name="user_name" class="form-control shadow-sm" value="<?= $user['username'] ?>">
+                                <input type="text" name="username" class="form-control shadow-sm" value="{{user.username}}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label required-label">Date de naissance</label>
-                            <input type="date" name="datenaissance" class="form-control shadow-sm" value="<?= $user['datenaissance'] ?>">
+                            <input type="date" name="date_naissance" class="form-control shadow-sm" value="{{user.date_naissance|date:'Y-m-d'}}">
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label required-label">Sexe</label>
                             <select name="sexe" class="form-select shadow-sm">
-                                <?php if ($user['sexe'] == "M") {
-                                    $user['sexe'] = " Masculin";
-                                    $value = "M";
-                                } else {
-                                    $user['sexe'] = "Féminin";
-                                    $value = "F";	
-                                } ?>
-                                <option selected value="<?=$value?>"><?= $user['sexe'] ?></option>
+                                <option selected value="{{user.sexe}}">{{user.sexe}}</option>
                                 <option value="M">👨 Masculin</option>
                                 <option value="F">👩 Féminin</option>
                             </select>
@@ -167,7 +160,7 @@
                             <label class="form-label required-label">Email</label>
                             <div class="input-group">
                                 <span class="input-group-text">✉️</span>
-                                <input type="email" name="email" class="form-control shadow-sm" value="<?= $user['email'] ?>">
+                                <input type="email" name="email" class="form-control shadow-sm" value="{{user.email}}">
                             </div>
                         </div>
 
@@ -175,13 +168,13 @@
                             <label class="form-label required-label">Téléphone</label>
                             <div class="input-group">
                                 <span class="input-group-text">📞</span>
-                                <input type="text" name="telephone" class="form-control shadow-sm" value="<?= $user['telephone'] ?>">
+                                <input type="text" name="telephone" class="form-control shadow-sm" value="{{user.telephone}}">
                             </div>
                         </div>
 
                         <div class="col-12">
                             <label class="form-label required-label">Adresse</label>
-                            <input type="text" name="adresse" class="form-control shadow-sm" value="<?= $user['adresse'] ?>"></input>
+                            <input type="text" name="adresse" class="form-control shadow-sm" value="{{user.adresse}}"></input>
                         </div>
                     </div>
                 </div>
@@ -192,23 +185,17 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label required-label">Mot de passe</label>
-                            <input type="password" name="password" value="<?= $user['password'] ?>" class="form-control shadow-sm" minlength="8">
+                            <input type="password" name="password" value="{{user.password}}" class="form-control shadow-sm" minlength="8">
                             <div class="password-strength"></div>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label required-label">Rôle</label>
                             <select name="role" class="form-select shadow-sm">
-                                <?php if ($user['role'] == 1) {
-                                    $user['role'] = "Administrateur";
-                                    $value = "1";
-                                } else {
-                                    $user['role'] = "Utilisateur";
-                                    $value = "2";
-                                } ?>
-                                <option selected value="<?=$value?>"><?= $user['role'] ?></option>
-                                <option value="1">👑 Administrateur</option>
-                                <option value="2">👤 Utilisateur</option>
+                                
+                                <option selected value="{{user.role}}">{{user.role}}</option>
+                                <option value="manager">👑 Manager</option>
+                                <option value="employe">👤 Employé</option>
                             </select>
                         </div>
 
@@ -216,7 +203,7 @@
                             <label class="form-label">Matricule</label>
                             <div class="input-group">
                                 <span class="input-group-text">🔢</span>
-                                <input type="text" name="matricule" class="form-control shadow-sm" value="<?= $user['matricule'] ?>">
+                                <input type="text" name="matricule" class="form-control shadow-sm" value="{{user.matricule}}">
                             </div>
                         </div>
                     </div>
@@ -224,9 +211,8 @@
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                     <button type="reset" class="btn btn-outline-secondary px-4">Annuler</button>
-                    <a class="btn btn-success" href="user.php">Liste des Utilisateurs</a>
+                    <a class="btn btn-success" href="{% url 'listusers' %}">Liste des Utilisateurs</a>
                     <button type="submit" class="btn btn-primary px-4">
-
                         <span class="fw-bold">✅ Modifier</span>
                     </button>
                 </div>

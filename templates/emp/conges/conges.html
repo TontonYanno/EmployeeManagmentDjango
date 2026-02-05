@@ -1,65 +1,67 @@
-{% extends 'emp/base.html' %} {% block content %}
+{% extends 'emp/base.html' %} 
+{% block content %}
 
+
+<form action="{% url 'mes_conges' %}" method="post">
+  {% csrf_token %}
+  {% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+    {% endfor %}
+  {% endif %}
 
 <div class="col-md-12 grid-margin stretch-card">
-  <div class="card">
-    <div class="card-body">
-      <h4 class="card-title">Programmation de Congés</h4>
-      <div class="form-group">
-        <label>Single select box using select 2</label>
-        <select class="js-example-basic-single w-100">
-          <option value="AL">Selectioner un type</option>
-          <option value="WY">Congés Annuel</option>
-          <option value="AM">Maladie</option>
-          <option value="CA">Maternité</option>
-        </select>
+  
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Programmation de Congés</h4>
+  
+        <div class="form-group">
+          <label>Single select box using select 2</label>
+          <select name="type" class="js-example-basic-single w-100">
+            <option value="AL">Selectioner un type</option>
+            <option value="conge"> Congés </option>
+            <option value="maladie"> Maladie </option>
+            <option value="autre"> Autre </option>
+          </select>
+        </div>
+  
+        <div class="form-group position-relative">
+          <label for="startDate"><i class="fas fa-calendar-week mr-2 text-green-500"></i>Date de début</label>
+          <div class="input-group">
+              <input type="date" name="debut" class="form-control pl-3 pr-4" id="startDate"placeholder="Sélectionnez une date">
+              <div class="input-group-append">
+                <span class="input-group-text bg-transparent border-0 position-absolute" style="right: 10px; top: 38px;"></span>
+              </div>
+          </div>
       </div>
-
+      
       <div class="form-group position-relative">
-        <label for="startDate">
-            <i class="fas fa-calendar-week mr-2 text-green-500"></i>Date de début
-        </label>
-        <div class="input-group">
-            <input type="date" 
-                   class="form-control pl-3 pr-4" 
-                   id="startDate"
-                   placeholder="Sélectionnez une date">
-            <div class="input-group-append">
-                <span class="input-group-text bg-transparent border-0 position-absolute" style="right: 10px; top: 38px;">
-                    <!-- <i class="fas fa-calendar-alt text-green-500"></i> -->
-                </span>
-            </div>
-        </div>
-    </div>
-    
-    <div class="form-group position-relative">
-        <label for="endDate">
-            <i class="fas fa-calendar-week mr-2 text-green-500"></i>Date de fin
-        </label>
-        <div class="input-group">
-            <input type="date" 
-                   class="form-control pl-3 pr-4" 
-                   id="endDate"
-                   placeholder="Sélectionnez une date">
-            <div class="input-group-append">
-                <span class="input-group-text bg-transparent border-0 position-absolute" style="right: 10px; top: 38px;">
-                    <!-- <i class="fas fa-calendar-alt text-green-500"></i> -->
-                </span>
-            </div>
-        </div>
-    </div>
-
+          <label for="endDate"><i class="fas fa-calendar-week mr-2 text-green-500"></i>Date de fin</label>
+          <div class="input-group">
+              <input type="date" class="form-control pl-3 pr-4" name="fin"id="endDate"placeholder="Sélectionnez une date">
+              <div class="input-group-append">
+                <span class="input-group-text bg-transparent border-0 position-absolute" style="right: 10px; top: 38px;"></span>
+              </div>
+          </div>
+      </div>
+  
       <div class="form-group">
         <label for="exampleTextarea1">Textarea</label>
-        <textarea
-          class="form-control"
-          id="exampleTextarea1"
-          rows="2"
-        ></textarea>
+        <textarea name="description"class="form-control"id="exampleTextarea1"rows="2"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary mr-2">Submit</button>
+  
+      <button type="submit" class="btn btn-primary mr-2">Ajouter</button>
+  
+      </div>
     </div>
+    
   </div>
-</div>
+  </form>
 
 {% endblock %}
